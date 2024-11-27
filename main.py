@@ -11,6 +11,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from forms import EnterReferralCode, RegisterForm, LoginForm
 import os
 from dotenv import load_dotenv
+import smtplib
 
 load_dotenv()  # This loads the variables from the .env file
 
@@ -90,6 +91,18 @@ class ImageLink(db.Model):
 
 with app.app_context():
     db.create_all()
+
+#Configure Email Sending
+MY_EMAIL = os.environ.get("MY_EMAIL")
+TO_EMAIL = os.environ.get("TO_EMAIL")
+APP_PASSWORD = os.environ.get("APP_PASSWORD")
+
+def send_email(subject, message):
+    email_message = f"Subject:{subject}\n\n{message}"
+    with smtplib.SMTP("smtp.gmail.com") as connection:
+        connection.starttls()
+        connection.login(MY_EMAIL, APP_PASSWORD)
+        connection.sendmail(MY_EMAIL, TO_EMAIL, email_message)
 
 # #Register Page
 # @app.route('/register', methods=["GET", "POST"])
