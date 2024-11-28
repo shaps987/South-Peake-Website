@@ -41,6 +41,7 @@ class Product(db.Model):
 class ImageLink(db.Model):
     __tablename__ = "images"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    product_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("products.id"))
     product = relationship("Product", back_populates="images")
     img1: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     img2: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
