@@ -154,42 +154,44 @@ def index():
 #About Page
 @app.route('/about', methods=["GET", "POST"])
 def about():
-    return render_template("about.html")
+    return render_template("about.html", logged_in=current_user.is_authenticated)
 
 #Contact Page
 @app.route('/contact', methods=["GET", "POST"])
 def contact():
-    return render_template("contact.html")
+    return render_template("contact.html", logged_in=current_user.is_authenticated)
 
 #3D Printing Page
 @app.route('/3d_printing', methods=["GET", "POST"])
 def printing():
-    return render_template("3d_printing.html")
+    return render_template("3d_printing.html", logged_in=current_user.is_authenticated)
 
 #3D Printed Toys
 @app.route('/3d_printing/toys', methods=["GET", "POST"])
 def toys():
-    return render_template("toys.html")
+    result = db.session.execute(db.select(Product))
+    products = result.scalars().all()
+    return render_template("toys.html", products=products, logged_in=current_user.is_authenticated)
 
 #Specific Toy Page
 @app.route('/3d_printing/<string:name>', methods=["GET", "POST"])
 def specific_toy():
-    return render_template("specific_toy.html")
+    return render_template("specific_toy.html", logged_in=current_user.is_authenticated)
 
 #Custom CAD Page
 @app.route('/3d_printing/cad', methods=["GET", "POST"])
 def custom_cad():
-    return render_template("custom_cad.html")
+    return render_template("custom_cad.html", logged_in=current_user.is_authenticated)
 
 #Custom 3D Printing Page
 @app.route('/3d_printing/custom_3d', methods=["GET", "POST"])
 def custom_printing():
-    return render_template("custom_3d.html")
+    return render_template("custom_3d.html", logged_in=current_user.is_authenticated)
 
 #Web Design Page
 @app.route('/web_design', methods=["GET", "POST"])
 def web_design():
-    return render_template("web_design.html")
+    return render_template("web_design.html", logged_in=current_user.is_authenticated)
 
 if __name__ == "__main__":
     app.run(debug=True)
