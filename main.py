@@ -13,8 +13,6 @@ import os
 from dotenv import load_dotenv
 import smtplib
 
-# hi=0
-
 load_dotenv()  # This loads the variables from the .env file
 
 app = Flask(__name__)
@@ -96,7 +94,7 @@ class ImageLink(db.Model):
 with app.app_context():
     db.create_all()
 
-# # Configure Email Sending
+# Configure Email Sending
 # with open("/etc/secrets/MY_EMAIL") as file:
 #     MY_EMAIL = file.read()
 # with open("/etc/secrets/TO_EMAIL") as file:
@@ -111,87 +109,108 @@ with app.app_context():
 #         connection.login(MY_EMAIL, APP_PASSWORD)
 #         connection.sendmail(MY_EMAIL, TO_EMAIL, email_message)
 
-# #Register Page
-# @app.route('/register', methods=["GET", "POST"])
-# def register():
-#     form = RegisterForm()
-#     if form.validate_on_submit():
-#         # Check if user email is already present in the database.
-#         result = db.session.execute(db.select(User).where(User.email == form.email.data))
-#         user = result.scalar()
-#         if user:
-#             # User already exists
-#             flash("You've already signed up with that email, log in instead.")
-#             return redirect(url_for('login'))
+#Register Page
+@app.route('/register', methods=["GET", "POST"])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        # Check if user email is already present in the database.
+        result = db.session.execute(db.select(User).where(User.email == form.email.data))
+        user = result.scalar()
+        if user:
+            # User already exists
+            flash("You've already signed up with that email, log in instead.")
+            return redirect(url_for('login'))
         
         
-#         new_user = User(
-#             email=form.email.data,
-#             username=form.username.data,
-#             password=generate_password_hash(password=form.password.data, method="pbkdf2:sha256", salt_length=8),
-#         )
+        new_user = User(
+            email=form.email.data,
+            username=form.username.data,
+            password=generate_password_hash(password=form.password.data, method="pbkdf2:sha256", salt_length=8),
+        )
 
-#         db.session.add(new_user)
-#         db.session.commit()
+        db.session.add(new_user)
+        db.session.commit()
         
-#         login_user(new_user)
+        login_user(new_user)
         
-#         return redirect(url_for("index"))
+        return redirect(url_for("index"))
     
-#     return render_template("register.html", form=form, logged_in=current_user.is_authenticated)
+    return render_template("register.html", form=form, logged_in=current_user.is_authenticated)
 
-# #Login Page
-# @app.route('/login', methods=["GET", "POST"])
-# def login():
-#     form = LoginForm()
-#     if form.validate_on_submit():
-#         password = form.password.data
-#         result = db.session.execute(db.select(User).where(User.email == form.email.data))
-#         # Note, email in db is unique so will only have one result.
-#         user = result.scalar()
-#         # Email doesn't exist
-#         if not user:
-#             flash("That email does not exist, please try again.")
-#             return redirect(url_for('login'))
-#         # Password incorrect
-#         elif not check_password_hash(user.password, password):
-#             flash('Password incorrect, please try again.')
-#             return redirect(url_for('login'))
-#         else:
-#             login_user(user)
-#             return redirect(url_for('index'))
+#Login Page
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        password = form.password.data
+        result = db.session.execute(db.select(User).where(User.email == form.email.data))
+        # Note, email in db is unique so will only have one result.
+        user = result.scalar()
+        # Email doesn't exist
+        if not user:
+            flash("That email does not exist, please try again.")
+            return redirect(url_for('login'))
+        # Password incorrect
+        elif not check_password_hash(user.password, password):
+            flash('Password incorrect, please try again.')
+            return redirect(url_for('login'))
+        else:
+            login_user(user)
+            return redirect(url_for('index'))
         
-#     return render_template("login.html", form=form, logged_in=current_user.is_authenticated)
+    return render_template("login.html", form=form, logged_in=current_user.is_authenticated)
 
-# #Logout Process
-# @app.route('/logout')
-# def logout():
-#     logout_user()
-#     return redirect(url_for('index'))
+#Logout Process
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 #Index Page (Home Page)
 @app.route('/', methods=["GET", "POST"])
 def index():
-    # global hi
-    # if hi==0:
-    #     send_email("Testing", """testing testing testing""")
-    #     hi = 1
     return render_template("index.html")
 
-# #Services Page
-# @app.route('/services', methods=["GET", "POST"])
-# def services():
-#     return render_template("services.html")
+#About Page
+@app.route('/about', methods=["GET", "POST"])
+def about():
+    return render_template("about.html")
 
-# #General Products Page
-# @app.route('/3d_printing/products', methods=["GET", "POST"])
-# def printed_products():
-#     return render_template("3d_printed_products.html")
+#Contact Page
+@app.route('/contact', methods=["GET", "POST"])
+def contact():
+    return render_template("contact.html")
 
-# #Specific Product Page
-# @app.route('/3d_printing/<str:name>', methods=["GET", "POST"])
-# def get_3d_printed_product():
-#     return render_template("3d_printed_product.html")
+#3D Printing Page
+@app.route('/3d_printing', methods=["GET", "POST"])
+def printing():
+    return render_template("3d_printing.html")
+
+#3D Printed Toys
+@app.route('/3d_printing/toys', methods=["GET", "POST"])
+def toys():
+    return render_template("toys.html")
+
+#Specific Toy Page
+@app.route('/3d_printing/<str:name>', methods=["GET", "POST"])
+def specific_toy():
+    return render_template("specific_toy.html")
+
+#Custom CAD Page
+@app.route('/3d_printing/cad', methods=["GET", "POST"])
+def custom_cad():
+    return render_template("custom_cad.html")
+
+#Custom 3D Printing Page
+@app.route('/3d_printing/custom_3d', methods=["GET", "POST"])
+def custom_printing():
+    return render_template("custom_3d.html")
+
+#Web Design Page
+@app.route('/web_design', methods=["GET", "POST"])
+def web_design():
+    return render_template("web_design.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
