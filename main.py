@@ -13,7 +13,7 @@ import os
 from dotenv import load_dotenv
 import smtplib
 
-hi=0
+# hi=0
 
 load_dotenv()  # This loads the variables from the .env file
 
@@ -96,20 +96,20 @@ class ImageLink(db.Model):
 with app.app_context():
     db.create_all()
 
-#Configure Email Sending
-with open("/etc/secrets/MY_EMAIL") as file:
-    MY_EMAIL = file.read()
-with open("/etc/secrets/TO_EMAIL") as file:
-    TO_EMAIL = file.read()
-with open("/etc/secrets/APP_PASSWORD") as file:
-    APP_PASSWORD = file.read()
+# # Configure Email Sending
+# with open("/etc/secrets/MY_EMAIL") as file:
+#     MY_EMAIL = file.read()
+# with open("/etc/secrets/TO_EMAIL") as file:
+#     TO_EMAIL = file.read()
+# with open("/etc/secrets/APP_PASSWORD") as file:
+#     APP_PASSWORD = file.read()
 
-def send_email(subject, message):
-    email_message = f"Subject:{subject}\n\n{message}"
-    with smtplib.SMTP("smtp.gmail.com") as connection:
-        connection.starttls()
-        connection.login(MY_EMAIL, APP_PASSWORD)
-        connection.sendmail(MY_EMAIL, TO_EMAIL, email_message)
+# def send_email(subject, message):
+#     email_message = f"Subject:{subject}\n\n{message}"
+#     with smtplib.SMTP("smtp.gmail.com") as connection:
+#         connection.starttls()
+#         connection.login(MY_EMAIL, APP_PASSWORD)
+#         connection.sendmail(MY_EMAIL, TO_EMAIL, email_message)
 
 # #Register Page
 # @app.route('/register', methods=["GET", "POST"])
@@ -172,10 +172,10 @@ def send_email(subject, message):
 #Index Page (Home Page)
 @app.route('/', methods=["GET", "POST"])
 def index():
-    global hi
-    if hi==0:
-        send_email("Testing", """testing testing testing""")
-        hi = 1
+    # global hi
+    # if hi==0:
+    #     send_email("Testing", """testing testing testing""")
+    #     hi = 1
     return render_template("index.html")
 
 # #Services Page
