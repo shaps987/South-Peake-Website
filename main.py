@@ -46,7 +46,7 @@ def load_user(user_id):
     return db.get_or_404(User, user_id)
 
 #Configure Tables
-class User(UserMixin, db.Model):
+class User(db.Model):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     email: Mapped[str] = mapped_column(String(100), unique=True)
@@ -64,11 +64,12 @@ class Product(db.Model):
 class ImageLink(db.Model):
     __tablename__ = "images"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    product_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("products.id"))
     product = relationship("Product", back_populates="images")
-    img1: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    img2: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    img3: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    vid1: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    img_one: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    img_two: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    img_three: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    vid_one: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
 
 with app.app_context():
     db.create_all()

@@ -43,10 +43,10 @@ class ImageLink(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     product_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("products.id"))
     product = relationship("Product", back_populates="images")
-    img1: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    img2: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    img3: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    vid1: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    img_one: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    img_two: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    img_three: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    vid_one: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
 
 with app.app_context():
     db.create_all()
@@ -60,10 +60,10 @@ with app.app_context():
     )
     db.session.add(new_product)
     new_product = Product(
-        img1 = "https://drive.google.com/file/d/1n_D5pYQS66us918CfPX3dEKa09sdzJmx/view?usp=drive_link",
-        img2 = "https://drive.google.com/file/d/1chaQAcxWW1ZEDFGBuUKXUXPcjm3n2zRS/view?usp=sharing",
-        img3 = "https://drive.google.com/file/d/1Rn7MZI9UOJjT29FXdsKxyS26o8eoO1_5/view?usp=drive_link",
-        vid1 = "https://drive.google.com/file/d/1wN6KP6zyFP2eZSqCHpZDHkOECj6KOaig/view?usp=sharing",
+        img_one = "https://drive.google.com/file/d/1n_D5pYQS66us918CfPX3dEKa09sdzJmx/view?usp=drive_link",
+        img_two = "https://drive.google.com/file/d/1chaQAcxWW1ZEDFGBuUKXUXPcjm3n2zRS/view?usp=sharing",
+        img_three = "https://drive.google.com/file/d/1Rn7MZI9UOJjT29FXdsKxyS26o8eoO1_5/view?usp=drive_link",
+        vid_one = "https://drive.google.com/file/d/1wN6KP6zyFP2eZSqCHpZDHkOECj6KOaig/view?usp=sharing",
         
     )
     db.session.add(new_product)
