@@ -41,32 +41,38 @@ class Product(db.Model):
 class ImageLink(db.Model):
     __tablename__ = "images"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    product_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("products.id"))
-    product = relationship("Product", back_populates="images")
+
     img_one: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     img_two: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     img_three: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     vid_one: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+
+    product_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("products.id"))
+    product = relationship("Product", back_populates="images")
 
 with app.app_context():
     db.create_all()
 
 # CREATE RECORD
 with app.app_context():
+    # Create a new product
     new_product = Product(
-        name = "Gyroscope",
-        description = "This is a gyroscope. Gyroscopes are cool.",
-        price = 3,
+        name="Gyroscope",
+        description="This is a gyroscope. Gyroscopes are cool.",
+        price=3,
     )
     db.session.add(new_product)
-    new_product = Product(
-        img_one = "https://drive.google.com/file/d/1n_D5pYQS66us918CfPX3dEKa09sdzJmx/view?usp=drive_link",
-        img_two = "https://drive.google.com/file/d/1chaQAcxWW1ZEDFGBuUKXUXPcjm3n2zRS/view?usp=sharing",
-        img_three = "https://drive.google.com/file/d/1Rn7MZI9UOJjT29FXdsKxyS26o8eoO1_5/view?usp=drive_link",
-        vid_one = "https://drive.google.com/file/d/1wN6KP6zyFP2eZSqCHpZDHkOECj6KOaig/view?usp=sharing",
-        
+    db.session.commit()  # Commit to get the product ID
+
+    # Create a new image link associated with the product
+    new_image_link = ImageLink(
+        img_one="https://drive.google.com/file/d/1n_D5pYQS66us918CfPX3dEKa09sdzJmx/view?usp=drive_link",
+        img_two="https://drive.google.com/file/d/1chaQAcxWW1ZEDFGBuUKXUXPcjm3n2zRS/view?usp=sharing",
+        img_three="https://drive.google.com/file/d/1Rn7MZI9UOJjT29FXdsKxyS26o8eoO1_5/view?usp=drive_link",
+        vid_one="https://drive.google.com/file/d/1wN6KP6zyFP2eZSqCHpZDHkOECj6KOaig/view?usp=sharing",
+        product_id=new_product.id  # Associate the image link with the new product
     )
-    db.session.add(new_product)
+    db.session.add(new_image_link)
     db.session.commit()
 
 # #READ All Records
