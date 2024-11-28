@@ -1,10 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
-from wtforms.validators import DataRequired, URL, Email, EqualTo
-
-class EnterReferralCode(FlaskForm):
-    referral_code = StringField("Referral Code", validators=[DataRequired()])
-    submit = SubmitField("Verify Referral Code")
+from wtforms.validators import DataRequired, Email, EqualTo
 
 class RegisterForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])

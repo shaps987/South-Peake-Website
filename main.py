@@ -1,4 +1,3 @@
-from datetime import date
 from flask import Flask, abort, render_template, redirect, url_for, flash
 from flask_bootstrap import Bootstrap5
 from flask_gravatar import Gravatar
@@ -8,7 +7,7 @@ from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Text
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import EnterReferralCode, RegisterForm, LoginForm
+from forms import RegisterForm, LoginForm
 import os
 from dotenv import load_dotenv
 import smtplib
