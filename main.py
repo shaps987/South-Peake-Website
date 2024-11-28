@@ -68,7 +68,7 @@ class ImageLink(db.Model):
     img1: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     img2: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     img3: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    img4: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    vid1: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
 
 with app.app_context():
     db.create_all()
