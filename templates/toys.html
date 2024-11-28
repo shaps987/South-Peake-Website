@@ -8,9 +8,9 @@
     {% if products == [] %}
         <h3>There are no products yet, please check back later.</h3>
     {% else %}
-        <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 px-3">
+        <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
             {% for product in products %}
-                <div class="col">
+                <div class="col  px-3">
                     <div class="card" style="width: 18rem;">
                         <img src="..." class="card-img-top" alt="...">
                         <div class="card-body">
