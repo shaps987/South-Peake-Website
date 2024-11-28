@@ -58,17 +58,19 @@ with app.app_context():
     new_product = Product(
         name = "Gyroscope",
         description = "This is a gyroscope. Gyroscopes are cool.",
-        price = 3,
+        price = 2,
     )
     db.session.add(new_product)
-    new_product = Product(
+    db.session.commit()
+    new_image_link = ImageLink(
         img_one = "https://drive.google.com/file/d/1n_D5pYQS66us918CfPX3dEKa09sdzJmx/view?usp=drive_link",
         img_two = "https://drive.google.com/file/d/1chaQAcxWW1ZEDFGBuUKXUXPcjm3n2zRS/view?usp=sharing",
         img_three = "https://drive.google.com/file/d/1Rn7MZI9UOJjT29FXdsKxyS26o8eoO1_5/view?usp=drive_link",
         vid_one = "https://drive.google.com/file/d/1wN6KP6zyFP2eZSqCHpZDHkOECj6KOaig/view?usp=sharing",
+        product_id=new_product.id  # Associate the image link with the new product
         
     )
-    db.session.add(new_product)
+    db.session.add(new_image_link)
     db.session.commit()
 
     # Create a new product
