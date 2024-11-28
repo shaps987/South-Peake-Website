@@ -64,12 +64,14 @@ class Product(db.Model):
 class ImageLink(db.Model):
     __tablename__ = "images"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    product_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("products.id"))
-    product = relationship("Product", back_populates="images")
+
     img_one: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     img_two: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     img_three: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     vid_one: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+
+    product_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("products.id"))
+    product = relationship("Product", back_populates="images")
 
 with app.app_context():
     db.create_all()
