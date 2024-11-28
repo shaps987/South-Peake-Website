@@ -42,14 +42,20 @@
             </li>
           </ul>
           {% if not logged_in: %}
-          <li class="d-flex">
-            <a class="nav-link active" aria-current="page" href="{{ url_for('login')}}">Login</a>
-            <a class="nav-link active" aria-current="page" href="{{ url_for('register')}}">Login</a>
-          </li>
+          <ul class="d-flex">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{{ url_for('login')}}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{{ url_for('register')}}">Register</a>
+            </li>
+          </ul>
           {% else %}
-          <li class="d-flex">
-            <a class="nav-link active" aria-current="page" href="{{ url_for('logout')}}">Logout</a>
-          </li>
+          <ul class="d-flex">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{{ url_for('logout')}}">Logout</a>
+            </li>
+          </ul>
           {% endif %}
         </div>
       </div>
