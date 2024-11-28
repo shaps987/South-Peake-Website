@@ -1,4 +1,4 @@
-from flask import Flask, abort, render_template, redirect, url_for, flash
+from flask import Flask, abort, render_template, redirect, url_for, flash, request
 from flask_bootstrap import Bootstrap5
 from flask_gravatar import Gravatar
 from flask_login import UserMixin, login_user, login_required, LoginManager, current_user, logout_user
@@ -177,8 +177,9 @@ def toys():
     return render_template("toys.html", products=products, logged_in=current_user.is_authenticated)
 
 #Specific Toy Page
-@app.route('/3d_printing/<string:name>', methods=["GET", "POST"])
+@app.route('/3d_printing/toys/toy', methods=["GET", "POST"])
 def specific_toy():
+    id = request.args.get("id")
     return render_template("specific_toy.html", logged_in=current_user.is_authenticated)
 
 #Custom CAD Page
