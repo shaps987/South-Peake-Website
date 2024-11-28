@@ -18,7 +18,9 @@ hi=0
 load_dotenv()  # This loads the variables from the .env file
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get("FLASK_KEY")
+with open("/etc/secrets/FLASK_KEY") as file:
+    FLASK_KEY = file.read()
+app.config['SECRET_KEY'] = FLASK_KEY
 Bootstrap5(app)
 
 #Configure Flask-Login
@@ -95,9 +97,12 @@ with app.app_context():
     db.create_all()
 
 #Configure Email Sending
-MY_EMAIL = os.environ.get("MY_EMAIL")
-TO_EMAIL = os.environ.get("TO_EMAIL")
-APP_PASSWORD = os.environ.get("APP_PASSWORD")
+with open("/etc/secrets/MY_EMAIL") as file:
+    MY_EMAIL = file.read()
+with open("/etc/secrets/TO_EMAIL") as file:
+    TO_EMAIL = file.read()
+with open("/etc/secrets/APP_PASSWORD") as file:
+    APP_PASSWORD = file.read()
 
 def send_email(subject, message):
     email_message = f"Subject:{subject}\n\n{message}"
