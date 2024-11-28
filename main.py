@@ -193,7 +193,7 @@ def toys():
     return render_template("toys.html")
 
 #Specific Toy Page
-@app.route('/3d_printing/<str:name>', methods=["GET", "POST"])
+@app.route('/3d_printing/<string:name>', methods=["GET", "POST"])
 def specific_toy():
     return render_template("specific_toy.html")
 
