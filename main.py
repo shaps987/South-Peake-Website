@@ -13,6 +13,8 @@ import os
 from dotenv import load_dotenv
 import smtplib
 
+hi=0
+
 load_dotenv()  # This loads the variables from the .env file
 
 app = Flask(__name__)
@@ -165,6 +167,10 @@ def send_email(subject, message):
 #Index Page (Home Page)
 @app.route('/', methods=["GET", "POST"])
 def index():
+    global hi
+    if hi==0:
+        send_email("Testing", """testing testing testing""")
+        hi = 1
     return render_template("index.html")
 
 # #Services Page
