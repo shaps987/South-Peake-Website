@@ -26,15 +26,16 @@ db.init_app(app)
 class User(db.Model):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    email: Mapped[str] = mapped_column(String(100), unique=True)
-    password: Mapped[str] = mapped_column(String(100))
-    username: Mapped[str] = mapped_column(String(100))
+    email: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
+    password: Mapped[str] = mapped_column(String(100), nullable=False)
+    username: Mapped[str] = mapped_column(String(100), nullable=False)
 
 class Product(db.Model):
     __tablename__ = "products"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    description: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    short_description = mapped_column(Text, unique=True, nullable=False)
+    long_description: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     price: Mapped[int] = mapped_column(Integer, unique=False, nullable=False)
     images = relationship("ImageLink", back_populates="product")
 
@@ -57,7 +58,8 @@ with app.app_context():
 with app.app_context():
     new_product = Product(
         name = "Gyroscope",
-        description = "This is a gyroscope. Gyroscopes are cool.",
+        short_description = "This is a gyroscope. Gyroscopes are cool.",
+        long_description = "This is a gyroscope. Gyroscopes are cool.",
         price = 2,
     )
     db.session.add(new_product)
@@ -76,7 +78,8 @@ with app.app_context():
     # Create a new product
     new_product = Product(
         name="Gyroscope2",
-        description="This is a gyroscope2. Gyroscopes2 are cool.",
+        short_description = "This is a gyroscope2. Gyroscopes2 are cool.",
+        long_description = "This is a gyroscope2. Gyroscopes2 are cool.",
         price=3,
     )
     db.session.add(new_product)

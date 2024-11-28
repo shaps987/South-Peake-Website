@@ -57,7 +57,8 @@ class Product(db.Model):
     __tablename__ = "products"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    description: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    short_description = mapped_column(Text, unique=False, nullable=False)
+    long_description: Mapped[str] = mapped_column(Text, unique=False, nullable=False)
     price: Mapped[int] = mapped_column(Integer, unique=False, nullable=False)
     images = relationship("ImageLink", back_populates="product")
 
