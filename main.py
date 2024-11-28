@@ -159,7 +159,7 @@ def logout():
 #Index Page (Home Page)
 @app.route('/', methods=["GET", "POST"])
 def index():
-    return render_template("index.html")
+    return render_template("index.html", current_user=current_user, logged_in=current_user.is_authenticated)
 
 #About Page
 @app.route('/about', methods=["GET", "POST"])
