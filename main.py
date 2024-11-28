@@ -53,16 +53,6 @@ class User(UserMixin, db.Model):
     password: Mapped[str] = mapped_column(String(100))
     username: Mapped[str] = mapped_column(String(100))
 
-    referral_codes = relationship("RefferalCode", back_populates="referrer")
-
-class RefferalCode(db.Model):
-    __tablename__ = "referral_codes"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    code: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    
-    referrer_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("users.id"))
-    referrer = relationship("User", back_populates="referral_codes")
-
 class Product(db.Model):
     __tablename__ = "products"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -74,7 +64,7 @@ class Product(db.Model):
 class ImageLink(db.Model):
     __tablename__ = "images"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    product = relationship("User", back_populates="images")
+    product = relationship("Product", back_populates="images")
     img1: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     img2: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     img3: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
