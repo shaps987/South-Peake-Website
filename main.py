@@ -49,16 +49,16 @@ def load_user(user_id):
 class User(db.Model):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    email: Mapped[str] = mapped_column(String(100), unique=True)
-    password: Mapped[str] = mapped_column(String(100))
-    username: Mapped[str] = mapped_column(String(100))
+    email: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
+    password: Mapped[str] = mapped_column(String(100), nullable=False)
+    username: Mapped[str] = mapped_column(String(100), nullable=False)
 
 class Product(db.Model):
     __tablename__ = "products"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     description: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    price: Mapped[int] = mapped_column(Integer, unique=True, nullable=False)
+    price: Mapped[int] = mapped_column(Integer, unique=False, nullable=False)
     images = relationship("ImageLink", back_populates="product")
 
 class ImageLink(db.Model):

@@ -35,7 +35,7 @@ class Product(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
     description: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    price: Mapped[int] = mapped_column(Integer, unique=True, nullable=False)
+    price: Mapped[int] = mapped_column(Integer, unique=False, nullable=False)
     images = relationship("ImageLink", back_populates="product")
 
 class ImageLink(db.Model):
@@ -55,10 +55,26 @@ with app.app_context():
 
 # CREATE RECORD
 with app.app_context():
+    new_product = Product(
+        name = "Gyroscope",
+        description = "This is a gyroscope. Gyroscopes are cool.",
+        price = 3,
+    )
+    db.session.add(new_product)
+    new_product = Product(
+        img_one = "https://drive.google.com/file/d/1n_D5pYQS66us918CfPX3dEKa09sdzJmx/view?usp=drive_link",
+        img_two = "https://drive.google.com/file/d/1chaQAcxWW1ZEDFGBuUKXUXPcjm3n2zRS/view?usp=sharing",
+        img_three = "https://drive.google.com/file/d/1Rn7MZI9UOJjT29FXdsKxyS26o8eoO1_5/view?usp=drive_link",
+        vid_one = "https://drive.google.com/file/d/1wN6KP6zyFP2eZSqCHpZDHkOECj6KOaig/view?usp=sharing",
+        
+    )
+    db.session.add(new_product)
+    db.session.commit()
+
     # Create a new product
     new_product = Product(
-        name="Gyroscope",
-        description="This is a gyroscope. Gyroscopes are cool.",
+        name="Gyroscope2",
+        description="This is a gyroscope2. Gyroscopes2 are cool.",
         price=3,
     )
     db.session.add(new_product)
@@ -66,10 +82,10 @@ with app.app_context():
 
     # Create a new image link associated with the product
     new_image_link = ImageLink(
-        img_one="https://drive.google.com/file/d/1n_D5pYQS66us918CfPX3dEKa09sdzJmx/view?usp=drive_link",
-        img_two="https://drive.google.com/file/d/1chaQAcxWW1ZEDFGBuUKXUXPcjm3n2zRS/view?usp=sharing",
-        img_three="https://drive.google.com/file/d/1Rn7MZI9UOJjT29FXdsKxyS26o8eoO1_5/view?usp=drive_link",
-        vid_one="https://drive.google.com/file/d/1wN6KP6zyFP2eZSqCHpZDHkOECj6KOaig/view?usp=sharing",
+        img_one="https://images.unsplash.com/photo-1729512680463-bc583c395b61?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D",
+        img_two="https://images.unsplash.com/photo-1729582017869-a0c84b5c91b5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D",
+        img_three="https://plus.unsplash.com/premium_photo-1728035716169-d0986b6bbfcf?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8fA%3D%3D",
+        vid_one="https://drive.google.com/file/d/1Q77DUfltmygKCOLJdAmM8DOGbi3lz3dw/view?usp=sharing",
         product_id=new_product.id  # Associate the image link with the new product
     )
     db.session.add(new_image_link)
