@@ -45,16 +45,6 @@ db.init_app(app)
 def load_user(user_id):
     return db.get_or_404(User, user_id)
 
-def admin_only(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        #If id is not 1 then return abort with 403 error
-        if current_user.id != 1:
-            return abort(403)
-        #Otherwise continue with the route function
-        return f(*args, **kwargs)        
-    return decorated_function
-
 #Configure Tables
 class User(UserMixin, db.Model):
     __tablename__ = "users"
