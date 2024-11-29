@@ -170,14 +170,14 @@ def contact():
 def printing():
     return render_template("3d_printing.html", logged_in=current_user.is_authenticated)
 
-#3D Printed Toys
+#3D Printed Items
 @app.route('/3d_printing/items', methods=["GET", "POST"])
 def items():
     result = db.session.execute(db.select(Product))
     products = result.scalars().all()
     return render_template("items.html", products=products, logged_in=current_user.is_authenticated)
 
-#Specific Toy Page
+#Specific Item Page
 @app.route('/3d_printing/items/item', methods=["GET", "POST"])
 def specific_item():
     id = request.args.get("id")
