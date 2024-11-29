@@ -79,7 +79,7 @@ with app.app_context():
     new_product = Product(
         name="Flexi-Rex",
         short_description = "Flexi-Rex is a multi-jointed t-rex. It is fun to fidget with and it can bend into many different stances.",
-        long_description = "This is a gyroscope2. Gyroscopes2 are cool.",
+        long_description = "Flexi-Rex is a multi-jointed t-rex. It is fun to fidget with and it can bend into many different stances.",
         price=3,
     )
     db.session.add(new_product)
