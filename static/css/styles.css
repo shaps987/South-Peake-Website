@@ -1,9 +1,18 @@
 /* Custom Styles for South Peake */
 
-
-
+/* Set the body background color */
 body {
+  background-color: #454a4d !important; /* Gray background */
+}
 
-  background-color: #454a4d !important; /* Replace with your desired color hex code */
+/* Customize the container holding the cards */
+.album {
+  background-color: #454a4d; /* Ensure album background matches body */
+  padding: 2rem; /* Add spacing to the cards section */
+}
 
+/* Ensure the cards have consistent spacing with the background */
+.card {
+  background-color: white; /* Keep cards themselves white for contrast */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
 }

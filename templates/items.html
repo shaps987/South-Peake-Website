@@ -9,7 +9,7 @@
     {% if products == [] %}
         <h3>There are no products yet, please check back later.</h3>
     {% else %}
-        <div class="album py-5 bg-body-tertiary">
+        <div class="album py-5">
             <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     {% for product in products %}
@@ -17,9 +17,9 @@
                             <div class="card" style="width: 18rem;">
                                 <img src="{{ url_for('static', filename=product.images[0].img1 ) }}" class="card-img-top" alt="{{ product.name }}">
                                 <div class="card-body">
-                                  <h5 class="card-title">{{ product.name }} - ${{ product.price }}</h5>
-                                  <p class="card-text">{{ product.short_description }}</p>
-                                  <a href="{{ url_for('specific_item', id=product.id) }}" class="btn btn-primary">Learn More</a>
+                                <h5 class="card-title">{{ product.name }} - ${{ product.price }}</h5>
+                                <p class="card-text">{{ product.short_description }}</p>
+                                <a href="{{ url_for('specific_item', id=product.id) }}" class="btn btn-primary">Learn More</a>
                                 </div>
                             </div>
                         </div>
