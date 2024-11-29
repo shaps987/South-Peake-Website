@@ -41,6 +41,6 @@
 
 body {
 
-  background-color: #454a4d; /* Replace with your desired color hex code */
+  background-color: #454a4d !important; /* Replace with your desired color hex code */
 
 }
