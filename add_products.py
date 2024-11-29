@@ -60,7 +60,7 @@ with app.app_context():
         name = "Gyroscope",
         short_description = "This is a gyroscope. Gyroscopes are cool.",
         long_description = "This is a gyroscope. Gyroscopes are cool.",
-        price = 2,
+        price = 3,
     )
     db.session.add(new_product)
     db.session.commit()
@@ -77,8 +77,8 @@ with app.app_context():
 
     # Create a new product
     new_product = Product(
-        name="Gyroscope2",
-        short_description = "This is a gyroscope2. Gyroscopes2 are cool.",
+        name="Flexi-Rex",
+        short_description = "Flexi-Rex is a multi-jointed t-rex. It is fun to fidget with and it can bend into many different stances.",
         long_description = "This is a gyroscope2. Gyroscopes2 are cool.",
         price=3,
     )
@@ -87,10 +87,10 @@ with app.app_context():
 
     # Create a new image link associated with the product
     new_image_link = ImageLink(
-        img1="https://images.unsplash.com/photo-1729512680463-bc583c395b61?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D",
-        img2="https://images.unsplash.com/photo-1729582017869-a0c84b5c91b5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D",
-        img3="https://plus.unsplash.com/premium_photo-1728035716169-d0986b6bbfcf?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8fA%3D%3D",
-        vid1="https://drive.google.com/file/d/1Q77DUfltmygKCOLJdAmM8DOGbi3lz3dw/view?usp=sharing",
+        img1="assets/img/product_images/flexi-rex/rex_img1.jpg",
+        img2="assets/img/product_images/flexi-rex/rex_img2.jpg",
+        img3="assets/img/product_images/flexi-rex/rex_img3.jpg",
+        vid1="assets/img/product_images/flexi-rex/rex_vid1.mp4",
         product_id=new_product.id  # Associate the image link with the new product
     )
     db.session.add(new_image_link)
