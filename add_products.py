@@ -43,10 +43,10 @@ class ImageLink(db.Model):
     __tablename__ = "images"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
-    img_one: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    img_two: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    img_three: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    vid_one: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    img1: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    img2: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    img3: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    vid1: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
 
     product_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("products.id"))
     product = relationship("Product", back_populates="images")
@@ -65,10 +65,10 @@ with app.app_context():
     db.session.add(new_product)
     db.session.commit()
     new_image_link = ImageLink(
-        img_one = "assets/img/product_images/gyroscope/gyro_img1.jpg",
-        img_two = "https://drive.google.com/file/d/1chaQAcxWW1ZEDFGBuUKXUXPcjm3n2zRS/view?usp=sharing",
-        img_three = "https://drive.google.com/file/d/1Rn7MZI9UOJjT29FXdsKxyS26o8eoO1_5/view?usp=drive_link",
-        vid_one = "https://drive.google.com/file/d/1wN6KP6zyFP2eZSqCHpZDHkOECj6KOaig/view?usp=sharing",
+        img1 = "assets/img/product_images/gyroscope/gyro_img1.jpg",
+        img2 = "assets/img/product_images/gyroscope/gyro_img2.jpg",
+        img3 = "assets/img/product_images/gyroscope/gyro_img3.jpg",
+        vid1 = "assets/img/product_images/gyroscope/gyro_vid1.jpg",
         product_id=new_product.id  # Associate the image link with the new product
         
     )
@@ -87,10 +87,10 @@ with app.app_context():
 
     # Create a new image link associated with the product
     new_image_link = ImageLink(
-        img_one="https://images.unsplash.com/photo-1729512680463-bc583c395b61?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D",
-        img_two="https://images.unsplash.com/photo-1729582017869-a0c84b5c91b5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D",
-        img_three="https://plus.unsplash.com/premium_photo-1728035716169-d0986b6bbfcf?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8fA%3D%3D",
-        vid_one="https://drive.google.com/file/d/1Q77DUfltmygKCOLJdAmM8DOGbi3lz3dw/view?usp=sharing",
+        img1="https://images.unsplash.com/photo-1729512680463-bc583c395b61?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D",
+        img2="https://images.unsplash.com/photo-1729582017869-a0c84b5c91b5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D",
+        img3="https://plus.unsplash.com/premium_photo-1728035716169-d0986b6bbfcf?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8M3x8fGVufDB8fHx8fA%3D%3D",
+        vid1="https://drive.google.com/file/d/1Q77DUfltmygKCOLJdAmM8DOGbi3lz3dw/view?usp=sharing",
         product_id=new_product.id  # Associate the image link with the new product
     )
     db.session.add(new_image_link)
