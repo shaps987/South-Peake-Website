@@ -171,17 +171,17 @@ def printing():
     return render_template("3d_printing.html", logged_in=current_user.is_authenticated)
 
 #3D Printed Toys
-@app.route('/3d_printing/toys', methods=["GET", "POST"])
-def toys():
+@app.route('/3d_printing/items', methods=["GET", "POST"])
+def items():
     result = db.session.execute(db.select(Product))
     products = result.scalars().all()
-    return render_template("toys.html", products=products, logged_in=current_user.is_authenticated)
+    return render_template("items.html", products=products, logged_in=current_user.is_authenticated)
 
 #Specific Toy Page
-@app.route('/3d_printing/toys/toy', methods=["GET", "POST"])
-def specific_toy():
+@app.route('/3d_printing/items/item', methods=["GET", "POST"])
+def specific_item():
     id = request.args.get("id")
-    return render_template("specific_toy.html", logged_in=current_user.is_authenticated)
+    return render_template("specific_item.html", logged_in=current_user.is_authenticated)
 
 #Custom CAD Page
 @app.route('/3d_printing/cad', methods=["GET", "POST"])

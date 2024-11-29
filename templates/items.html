@@ -14,11 +14,11 @@
                     {% for product in products %}
                         <div class="col">
                             <div class="card" style="width: 18rem;">
-                                <img src="..." class="card-img-top" alt="...">
+                                <img src="{{  }}" class="card-img-top" alt="{{ product.name }}">
                                 <div class="card-body">
-                                  <h5 class="card-title">Card title</h5>
-                                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                                  <h5 class="card-title">{{ product.name }} - ${{ product.price }}</h5>
+                                  <p class="card-text">{{ product.short_description }}</p>
+                                  <a href="{{ 'specific_item', id=product.id }}" class="btn btn-primary">Learn More</a>
                                 </div>
                             </div>
                         </div>
