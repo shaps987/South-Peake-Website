@@ -1,43 +1,6 @@
 /* Custom Styles for South Peake */
 
-/* General Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
-/* Navbar Customization */
-.navbar-custom {
-  background-color: #454a4d; /* Custom gray background */
-}
-
-.navbar-custom .navbar-brand,
-.navbar-custom .nav-link {
-  color: white !important; /* White text */
-}
-
-.navbar-custom .nav-link:hover {
-  color: #d1d1d1 !important; /* Subtle hover effect */
-}
-
-.navbar-custom .navbar-brand img {
-  border-radius: 50%; /* Circular logo */
-}
-
-/* Dropdown Menu */
-.dropdown-menu {
-  background-color: #555; /* Darker dropdown background */
-}
-
-.dropdown-menu .dropdown-item {
-  color: white;
-}
-
-.dropdown-menu .dropdown-item:hover {
-  background-color: #666; /* Lighter hover effect */
-  color: white;
-}
 
 body {
 
