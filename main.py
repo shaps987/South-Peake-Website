@@ -1,3 +1,4 @@
+#--------------------------------------------------------------Imports--------------------------------------------------------------
 from flask import Flask, abort, render_template, redirect, url_for, flash, request
 from flask_bootstrap import Bootstrap5
 from flask_gravatar import Gravatar
@@ -12,18 +13,21 @@ import os
 from dotenv import load_dotenv
 import smtplib
 
+#--------------------------------------------------------------Load Env Variables from .env File--------------------------------------------------------------
 load_dotenv()  # This loads the variables from the .env file
 
+#--------------------------------------------------------------Initiate Flask App/Initiate Bootstrap--------------------------------------------------------------
 app = Flask(__name__)
 with open("/etc/secrets/FLASK_KEY") as file:
     FLASK_KEY = file.read()
 app.config['SECRET_KEY'] = FLASK_KEY
 Bootstrap5(app)
 
-#Configure Flask-Login
+#--------------------------------------------------------------Configure Flask-Login--------------------------------------------------------------
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+#--------------------------------------------------------------Configure Gravatar Logo--------------------------------------------------------------
 gravatar = Gravatar(app,
                     size=100,
                     rating='g',
@@ -33,19 +37,19 @@ gravatar = Gravatar(app,
                     use_ssl=False,
                     base_url=None)
 
-#Create Database
+#--------------------------------------------------------------Create Database--------------------------------------------------------------
 class Base(DeclarativeBase):
     pass
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///blog.db")
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
-#Configure Login and User System
+#--------------------------------------------------------------Configure Login and User System--------------------------------------------------------------
 @login_manager.user_loader
 def load_user(user_id):
     return db.get_or_404(User, user_id)
 
-#Configure Tables
+#--------------------------------------------------------------Configure Tables--------------------------------------------------------------
 class User(db.Model):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -77,22 +81,26 @@ class ImageLink(db.Model):
 with app.app_context():
     db.create_all()
 
-# Configure Email Sending
-# with open("/etc/secrets/MY_EMAIL") as file:
-#     MY_EMAIL = file.read()
-# with open("/etc/secrets/TO_EMAIL") as file:
-#     TO_EMAIL = file.read()
-# with open("/etc/secrets/APP_PASSWORD") as file:
-#     APP_PASSWORD = file.read()
+#-----------------------------------------------------Configure Email Sending-----------------------------------------------------
+with open("/etc/secrets/MY_EMAIL") as file:
+    MY_EMAIL = file.read()
+with open("/etc/secrets/TO_EMAIL") as file:
+    TO_EMAIL = file.read()
+with open("/etc/secrets/APP_PASSWORD") as file:
+    APP_PASSWORD = file.read()
 
-# def send_email(subject, message):
-#     email_message = f"Subject:{subject}\n\n{message}"
-#     with smtplib.SMTP("smtp.gmail.com") as connection:
-#         connection.starttls()
-#         connection.login(MY_EMAIL, APP_PASSWORD)
-#         connection.sendmail(MY_EMAIL, TO_EMAIL, email_message)
+def send_email(subject, message):
+    email_message = f"Subject:{subject}\n\n{message}"
+    with smtplib.SMTP("smtp.gmail.com") as connection:
+        connection.starttls()
+        connection.login(MY_EMAIL, APP_PASSWORD)
+        connection.sendmail(MY_EMAIL, TO_EMAIL, email_message)
 
-#Register Page
+#--------------------------------------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------Flask Pages--------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------------------------------------
+
+#--------------------------------------------------------------Register Page--------------------------------------------------------------
 @app.route('/register', methods=["GET", "POST"])
 def register():
     form = RegisterForm()
@@ -121,7 +129,7 @@ def register():
     
     return render_template("register.html", form=form, logged_in=current_user.is_authenticated)
 
-#Login Page
+#--------------------------------------------------------------Login Page--------------------------------------------------------------
 @app.route('/login', methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -144,56 +152,57 @@ def login():
         
     return render_template("login.html", form=form, logged_in=current_user.is_authenticated)
 
-#Logout Process
+#--------------------------------------------------------------Logout Process--------------------------------------------------------------
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
-#Index Page (Home Page)
+#--------------------------------------------------------------Index Page (Home Page)--------------------------------------------------------------
 @app.route('/', methods=["GET", "POST"])
 def index():
     return render_template("index.html", current_user=current_user, logged_in=current_user.is_authenticated)
 
-#About Page
+#--------------------------------------------------------------About Page--------------------------------------------------------------
 @app.route('/about', methods=["GET", "POST"])
 def about():
     return render_template("about.html", logged_in=current_user.is_authenticated)
 
-#Contact Page
+#--------------------------------------------------------------Contact Page--------------------------------------------------------------
 @app.route('/contact', methods=["GET", "POST"])
 def contact():
     return render_template("contact.html", logged_in=current_user.is_authenticated)
 
-#3D Printing Page
+#--------------------------------------------------------------3D Printing Page--------------------------------------------------------------
 @app.route('/3d_printing', methods=["GET", "POST"])
 def printing():
     return render_template("3d_printing.html", logged_in=current_user.is_authenticated)
 
-#3D Printed Items
+#--------------------------------------------------------------3D Printed Items--------------------------------------------------------------
 @app.route('/3d_printing/items', methods=["GET", "POST"])
 def items():
     result = db.session.execute(db.select(Product))
     products = result.scalars().all()
     return render_template("items.html", products=products, logged_in=current_user.is_authenticated)
 
-#Specific Item Page
+#--------------------------------------------------------------Specific Item Page--------------------------------------------------------------
 @app.route('/3d_printing/items/item', methods=["GET", "POST"])
 def specific_item():
     id = request.args.get("id")
-    return render_template("specific_item.html", logged_in=current_user.is_authenticated)
+    item = db.get_or_404(Product, id)
+    return render_template("specific_item.html", item=item, logged_in=current_user.is_authenticated)
 
-#Custom CAD Page
+#--------------------------------------------------------------Custom CAD Page--------------------------------------------------------------
 @app.route('/3d_printing/cad', methods=["GET", "POST"])
 def custom_cad():
     return render_template("custom_cad.html", logged_in=current_user.is_authenticated)
 
-#Custom 3D Printing Page
+#--------------------------------------------------------------Custom 3D Printing Page--------------------------------------------------------------
 @app.route('/3d_printing/custom_3d', methods=["GET", "POST"])
 def custom_printing():
     return render_template("custom_3d.html", logged_in=current_user.is_authenticated)
 
-#Web Design Page
+#--------------------------------------------------------------Web Design Page--------------------------------------------------------------
 @app.route('/web_design', methods=["GET", "POST"])
 def web_design():
     return render_template("web_design.html", logged_in=current_user.is_authenticated)
