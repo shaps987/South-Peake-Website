@@ -16,3 +16,7 @@ body {
   background-color: white; /* Keep cards themselves white for contrast */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
 }
+
+footer {
+  background-color: white !important; /* Overrides existing background color */
+}
