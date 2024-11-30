@@ -10,7 +10,7 @@ html, body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #454a4d; /* Gray background */
+  background-color: #616266; /* Gray background */
 }
 
 /* Content-wrapper to take up available space */
@@ -22,7 +22,7 @@ html, body {
 
 /* Album (or main content section) styling */
 .album {
-  background-color: #454a4d; /* Match the body background */
+  background-color: #616266; /* Match the body background */
   padding: 2rem;
   flex: 1; /* Ensures the album stretches */
 }
