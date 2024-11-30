@@ -20,3 +20,17 @@ body {
 footer {
   background-color: white !important; /* Overrides existing background color */
 }
+
+html, body {
+  height: 100%; /* Ensure the full height of the viewport is used */
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Make the wrapper span the full height of the viewport */
+}
+
+footer {
+  margin-top: auto; /* Push the footer to the bottom */
+}
