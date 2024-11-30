@@ -1,28 +1,66 @@
-/* General Reset */
-html, body {
-  height: 100%; /* Full height for the viewport */
+/* General reset for margin and padding */
+* {
   margin: 0;
-  display: flex;
-  flex-direction: column;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Ensure the content-wrapper uses flexbox */
+/* Ensure the body takes the full height */
+html, body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #454a4d; /* Gray background */
+}
+
+/* Content-wrapper to take up available space */
 .content-wrapper {
+  flex: 1; /* This makes the content area grow to fill the viewport */
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Full viewport height */
 }
 
-/* Push footer to the bottom */
+/* Album (or main content section) styling */
+.album {
+  background-color: #454a4d; /* Match the body background */
+  padding: 2rem;
+  flex: 1; /* Ensures the album stretches */
+}
+
+/* Ensure the cards are styled properly */
+.card {
+  background-color: white; /* Card background for contrast */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Footer styling */
 footer {
-  margin-top: auto; /* This ensures footer sticks at the bottom */
-  background-color: white; /* Override the background color */
-  width: 100%; /* Ensure the footer spans the full width */
-  padding: 1rem; /* Add padding for visual spacing */
+  background-color: white; /* White footer background */
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: auto; /* Pushes the footer to the bottom */
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* Add subtle shadow on top */
 }
 
-/* Optional: Remove margins on the footer container */
-.container-fluid {
-  padding-left: 0;
-  padding-right: 0;
+footer p, footer .nav-link {
+  color: #454a4d; /* Footer text color */
+  text-decoration: none;
+}
+
+footer .nav-link:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
+/* Navbar customization */
+.navbar .nav-link {
+  color: black !important;
+  text-decoration: none;
+}
+
+.navbar .nav-link:hover {
+  text-decoration: underline;
+}
+
+.navbar .nav-link.active {
+  text-decoration: underline;
 }
