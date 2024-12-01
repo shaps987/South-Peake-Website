@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Text
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import RegisterForm, LoginForm
+from forms import RegisterForm, LoginForm, ContactForm
 import os
 from dotenv import load_dotenv
 import smtplib
@@ -175,7 +175,18 @@ def about():
 #--------------------------------------------------------------Contact Page--------------------------------------------------------------
 @app.route('/contact', methods=["GET", "POST"])
 def contact():
-    return render_template("contact.html", logged_in=current_user.is_authenticated)
+    form = ContactForm()
+    if form.validate_on_submit():
+        message=f"""
+        Name: {form.name.data}
+        Email: {form.email.data}
+        Phone Number: {form.phone.data}
+        Message: {form.message.data}
+        """
+        
+        send_email(subject="South Peake User Contacting You", message=message)
+        return redirect(url_for("index"))
+    return render_template("contact.html", form=form, logged_in=current_user.is_authenticated)
 
 #--------------------------------------------------------------3D Printing Page--------------------------------------------------------------
 @app.route('/3d_printing', methods=["GET", "POST"])
