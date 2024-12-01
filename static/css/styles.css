@@ -65,33 +65,31 @@ footer .nav-link:hover {
   text-decoration: underline;
 }
 
-/* Carousel styling */
+/* Carousel adjustments */
 .carousel-item {
   display: none; /* Default Bootstrap behavior */
-  position: relative; /* Ensure proper stacking of slides */
-  align-items: center; /* Vertically center contents */
-  justify-content: center; /* Horizontally center contents */
+  position: relative; /* Ensure proper stacking */
+  align-items: center; /* Vertically center content */
+  justify-content: center; /* Horizontally center content */
 }
 
 .carousel-item.active {
-  display: flex; /* Make active item visible */
+  display: flex; /* Display active item */
   animation: none; /* Disable conflicting animations */
 }
 
-.carousel-inner {
-  overflow: hidden; /* Ensure proper clipping of slides */
-  height: auto; /* Allow content to determine height */
+.carousel-item video {
+  max-width: 100%; /* Ensure video scales to container */
+  max-height: 100%; /* Prevent overflow */
+  margin: auto; /* Center video */
+  display: block; /* Ensure proper block-level styling */
 }
 
-.carousel-item img,
-.carousel-item video {
-  max-width: 100%;
-  max-height: 100%;
-  margin: auto;
-  display: block;
+.carousel-inner {
+  overflow: hidden; /* Prevent content spillover */
 }
 
 .carousel-control-prev,
 .carousel-control-next {
-  z-index: 2; /* Ensure controls are on top */
+  z-index: 10; /* Ensure controls are on top of content */
 }

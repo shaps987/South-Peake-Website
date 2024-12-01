@@ -1,58 +1,57 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Custom JavaScript loaded for South Peake');
 
-    // Highlight active menu items
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.forEach(nav => nav.classList.remove('active'));
-            link.classList.add('active');
-        });
-    });
-
-    // Carousel logic
     const carousel = document.querySelector('#carouselExampleIndicators');
     const videos = carousel.querySelectorAll('video');
+    const controls = carousel.querySelectorAll('.carousel-control-prev, .carousel-control-next');
 
-    // Disable carousel controls when hovering over video
-    videos.forEach(video => {
-        video.addEventListener('mouseenter', () => {
-            carousel.querySelectorAll('.carousel-control-prev, .carousel-control-next').forEach(control => {
-                control.style.pointerEvents = 'none';
-            });
-        });
-
-        video.addEventListener('mouseleave', () => {
-            carousel.querySelectorAll('.carousel-control-prev, .carousel-control-next').forEach(control => {
-                control.style.pointerEvents = 'auto';
-            });
-        });
-    });
-
-    // Pause videos on slide change
+    // Pause and reset videos on slide change
     carousel.addEventListener('slide.bs.carousel', () => {
         videos.forEach(video => {
             video.pause();
-            video.currentTime = 0; // Reset playback to the start
+            video.currentTime = 0; // Reset video playback
         });
     });
 
-    // Ensure proper visibility of videos
-    const updateVideoVisibility = () => {
-        const items = carousel.querySelectorAll('.carousel-item');
-        items.forEach(item => {
-            const video = item.querySelector('video');
-            if (video) {
-                if (!item.classList.contains('active')) {
-                    video.style.display = 'none'; // Hide videos not in the active slide
-                } else {
-                    video.style.display = 'block'; // Show video for active slide
-                }
-            }
-        });
-    };
+    // Show only the active video's content
+    carousel.addEventListener('slid.bs.carousel', () => {
+        const activeItem = carousel.querySelector('.carousel-item.active');
+        videos.forEach(video => (video.style.display = 'none')); // Hide all videos
 
-    // Run on initialization and slide change
-    carousel.addEventListener('slid.bs.carousel', updateVideoVisibility);
-    updateVideoVisibility(); // Initial call to set visibility correctly
+        const activeVideo = activeItem.querySelector('video');
+        if (activeVideo) {
+            activeVideo.style.display = 'block'; // Show the active video
+        }
+    });
+
+    // Manage control buttons and video interactions
+    videos.forEach(video => {
+        // Disable carousel navigation controls when interacting with a video
+        video.addEventListener('mouseenter', () => {
+            controls.forEach(control => (control.style.pointerEvents = 'none'));
+        });
+
+        // Re-enable carousel navigation controls when leaving the video
+        video.addEventListener('mouseleave', () => {
+            controls.forEach(control => (control.style.pointerEvents = 'auto'));
+        });
+
+        // Ensure play/pause clicks work without affecting the carousel
+        video.addEventListener('click', event => {
+            event.stopPropagation(); // Prevent bubbling to carousel
+        });
+
+        // Re-enable carousel navigation when video is paused
+        video.addEventListener('pause', () => {
+            controls.forEach(control => (control.style.pointerEvents = 'auto'));
+        });
+    });
+
+    // Prevent auto-slide back to the video
+    carousel.addEventListener('slid.bs.carousel', () => {
+        const activeVideo = carousel.querySelector('.carousel-item.active video');
+        if (activeVideo) {
+            activeVideo.pause(); // Ensure the video doesn't auto-play if not intended
+        }
+    });
 });
