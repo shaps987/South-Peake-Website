@@ -19,4 +19,4 @@ class ContactForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email(message="Invalid email", check_deliverability=True)])
     phone = StringField("Phone Number", validators=[DataRequired()])
     message = StringField("Message", validators=[DataRequired()])
-    submit = SubmitField("Contact Me")
+    submit = SubmitField("Contact South Peake")

@@ -178,3 +178,7 @@ footer .nav-link:hover {
     bottom: -10px; /* Adjust if indicators overlap content */
   }
 }
+
+.white-color {
+  color: white;
+}
