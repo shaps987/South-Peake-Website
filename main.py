@@ -194,7 +194,8 @@ def items():
 def specific_item():
     id = request.args.get("id")
     item = db.get_or_404(Product, id)
-    return render_template("specific_item.html", item=item, logged_in=current_user.is_authenticated)
+    images = item.images[0]
+    return render_template("specific_item.html", item=item, images=images, logged_in=current_user.is_authenticated)
 
 #--------------------------------------------------------------Custom CAD Page--------------------------------------------------------------
 @app.route('/3d_printing/cad', methods=["GET", "POST"])

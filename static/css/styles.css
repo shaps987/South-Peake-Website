@@ -1,11 +1,19 @@
-/* General reset for margin and padding */
+/* =============================== */
+/* General Reset */
+/* =============================== */
+
+/* Reset margin, padding, and ensure consistent box sizing */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Ensure the body takes the full height */
+/* =============================== */
+/* Global Layout */
+/* =============================== */
+
+/* Ensure the body and HTML take the full height and provide a gray background */
 html, body {
   height: 100%;
   display: flex;
@@ -13,83 +21,160 @@ html, body {
   background-color: #616266; /* Gray background */
 }
 
-/* Content-wrapper to take up available space */
+/* Wrapper to ensure the main content takes available space */
 .content-wrapper {
-  flex: 1; /* This makes the content area grow to fill the viewport */
+  flex: 1; /* Allows the wrapper to grow and fill the viewport */
   display: flex;
   flex-direction: column;
 }
 
-/* Album (or main content section) styling */
+/* =============================== */
+/* Album Section */
+/* =============================== */
+
+/* Style the album section or main content area */
 .album {
-  background-color: #616266; /* Match the body background */
-  padding: 2rem;
-  flex: 1; /* Ensures the album stretches */
+  background-color: #616266; /* Matches body background */
+  padding: 2rem; /* Adds spacing around content */
+  flex: 1; /* Ensures the album stretches vertically */
 }
 
-/* Ensure the cards are styled properly */
+/* =============================== */
+/* Cards */
+/* =============================== */
+
+/* Style individual cards within the album */
 .card {
-  background-color: white; /* Card background for contrast */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  background-color: white; /* White background for contrast */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
 }
 
-/* Footer styling */
+/* =============================== */
+/* Footer */
+/* =============================== */
+
+/* General footer styling */
 footer {
   background-color: white; /* White footer background */
-  text-align: center;
-  padding: 1rem 0;
-  margin-top: auto; /* Pushes the footer to the bottom */
-  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* Add subtle shadow on top */
+  text-align: center; /* Center-align footer text */
+  padding: 1rem 0; /* Vertical padding */
+  margin-top: auto; /* Pushes the footer to the bottom of the page */
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow above the footer */
 }
 
+/* Footer text and links */
 footer p, footer .nav-link {
-  color: #454a4d; /* Footer text color */
+  color: #454a4d; /* Footer text color matches brand */
   text-decoration: none;
 }
 
+/* Footer link hover effect */
 footer .nav-link:hover {
-  text-decoration: underline; /* Underline on hover */
+  text-decoration: underline; /* Underlines links on hover */
 }
 
-/* Navbar customization */
+/* =============================== */
+/* Navbar */
+/* =============================== */
+
+/* Style the navigation links */
 .navbar .nav-link {
-  color: black !important;
-  text-decoration: none;
+  color: black !important; /* Black text for navigation links */
+  text-decoration: none; /* Remove underline by default */
 }
 
+/* Navbar link hover effect */
 .navbar .nav-link:hover {
-  text-decoration: underline;
+  text-decoration: underline; /* Underline links on hover */
 }
 
+/* Active navbar link styling */
 .navbar .nav-link.active {
-  text-decoration: underline;
+  text-decoration: underline; /* Underline the active link */
 }
 
-/* Carousel adjustments */
-.carousel-item {
-  display: none; /* Default Bootstrap behavior */
-  position: relative; /* Ensure proper stacking */
-  align-items: center; /* Vertically center content */
-  justify-content: center; /* Horizontally center content */
-}
+/* =============================== */
+/* Carousel */
+/* =============================== */
 
-.carousel-item.active {
-  display: flex; /* Display active item */
-  animation: none; /* Disable conflicting animations */
-}
-
+/* Ensure video scales properly within the carousel */
 .carousel-item video {
-  max-width: 100%; /* Ensure video scales to container */
-  max-height: 100%; /* Prevent overflow */
-  margin: auto; /* Center video */
+  max-width: 100%; /* Prevent overflow horizontally */
+  max-height: 100%; /* Prevent overflow vertically */
+  margin: auto; /* Center video within the carousel */
   display: block; /* Ensure proper block-level styling */
+  z-index: 1; /* Ensure video appears above the carousel background */
+  pointer-events: auto; /* Allow interaction with the video */
 }
 
-.carousel-inner {
-  overflow: hidden; /* Prevent content spillover */
+/* Carousel navigation arrows */
+.carousel-control-prev, .carousel-control-next {
+  z-index: 2; /* Ensure arrows remain visible above other content */
+  pointer-events: auto; /* Allow pointer interaction */
 }
 
+/* Adjust the size and padding of the arrow containers */
 .carousel-control-prev,
 .carousel-control-next {
-  z-index: 10; /* Ensure controls are on top of content */
+  position: absolute;
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%);
+  width: 50px; /* Width of the vertical column for the arrow */
+  height: 100px; /* Height of the column */
+  background-color: rgba(50, 111, 253, 0.9); /* Semi-transparent blue background */
+  border-radius: 10px; /* Rounded edges for a polished look */
+  z-index: 5; /* Place above other elements */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px; /* Padding for compact spacing */
+}
+
+/* Position the previous and next arrows */
+.carousel-control-prev {
+  left: -30px; /* Position to the left of the carousel */
+}
+
+.carousel-control-next {
+  right: -30px; /* Position to the right of the carousel */
+}
+
+/* Hover effect for carousel navigation */
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  background-color: rgba(50, 111, 253, 1); /* Darker blue on hover */
+}
+
+/* Adjust the size of the arrow icons */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* Prevent overflow and ensure smooth transitions within the carousel */
+.carousel-inner {
+  overflow: hidden; /* Prevent content from spilling out */
+}
+
+@media (max-width: 768px) {
+  /* Reduce arrow hitbox size */
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 40px; /* Smaller width */
+    height: 80px; /* Smaller height */
+    left: 5px; /* Keep arrows visible on smaller screens */
+    right: 5px;
+  }
+
+  /* Adjust video and image scaling */
+  .carousel-item video,
+  .carousel-item img {
+    max-height: 80vh; /* Scale down for smaller devices */
+  }
+
+  /* Center carousel indicators on smaller screens */
+  .carousel-indicators {
+    bottom: -10px; /* Adjust if indicators overlap content */
+  }
 }
