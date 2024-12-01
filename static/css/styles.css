@@ -108,14 +108,10 @@ footer .nav-link:hover {
 }
 
 /* Carousel navigation arrows */
-.carousel-control-prev, .carousel-control-next {
-  z-index: 2; /* Ensure arrows remain visible above other content */
-  pointer-events: auto; /* Allow pointer interaction */
-}
-
-/* Adjust the size and padding of the arrow containers */
 .carousel-control-prev,
 .carousel-control-next {
+  z-index: 2; /* Ensure arrows remain visible above other content */
+  pointer-events: auto; /* Allow pointer interaction */
   position: absolute;
   top: 50%; /* Center vertically */
   transform: translateY(-50%);
@@ -123,11 +119,9 @@ footer .nav-link:hover {
   height: 100px; /* Height of the column */
   background-color: rgba(50, 111, 253, 0.9); /* Semi-transparent blue background */
   border-radius: 10px; /* Rounded edges for a polished look */
-  z-index: 5; /* Place above other elements */
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px; /* Padding for compact spacing */
 }
 
 /* Position the previous and next arrows */
@@ -158,20 +152,33 @@ footer .nav-link:hover {
 }
 
 /* =============================== */
-/* Responsive Design */
+/* Mobile Adjustments */
 /* =============================== */
 
 @media (max-width: 768px) {
-  /* Reduce arrow hitbox size */
+  /* Reduce arrow hitbox size for smaller screens */
   .carousel-control-prev,
   .carousel-control-next {
     width: 40px; /* Smaller width */
     height: 80px; /* Smaller height */
-    left: 5px; /* Keep arrows visible on smaller screens */
-    right: 5px;
+    background-color: rgba(50, 111, 253, 0.9); /* Maintain semi-transparent blue */
+    border-radius: 10px; /* Rounded edges */
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  /* Adjust video and image scaling */
+  /* Position left arrow */
+  .carousel-control-prev {
+    left: 10px; /* Keep left arrow visible */
+  }
+
+  /* Position right arrow */
+  .carousel-control-next {
+    right: 10px; /* Keep right arrow visible */
+  }
+
+  /* Adjust video and image scaling for mobile */
   .carousel-item video,
   .carousel-item img {
     max-height: 80vh; /* Scale down for smaller devices */
@@ -184,9 +191,10 @@ footer .nav-link:hover {
 }
 
 /* =============================== */
-/* Utility Classes */
+/* Utilities */
 /* =============================== */
 
+/* White text utility class */
 .white-color {
-  color: white; /* Utility class to enforce white text */
+  color: white;
 }
