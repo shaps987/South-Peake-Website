@@ -64,3 +64,34 @@ footer .nav-link:hover {
 .navbar .nav-link.active {
   text-decoration: underline;
 }
+
+/* Carousel styling */
+.carousel-item {
+  display: none; /* Default Bootstrap behavior */
+  position: relative; /* Ensure proper stacking of slides */
+  align-items: center; /* Vertically center contents */
+  justify-content: center; /* Horizontally center contents */
+}
+
+.carousel-item.active {
+  display: flex; /* Make active item visible */
+  animation: none; /* Disable conflicting animations */
+}
+
+.carousel-inner {
+  overflow: hidden; /* Ensure proper clipping of slides */
+  height: auto; /* Allow content to determine height */
+}
+
+.carousel-item img,
+.carousel-item video {
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  display: block;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  z-index: 2; /* Ensure controls are on top */
+}

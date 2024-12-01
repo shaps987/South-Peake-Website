@@ -68,7 +68,7 @@ with app.app_context():
         img1 = "assets/img/product_images/gyroscope/gyro_img1.jpg",
         img2 = "assets/img/product_images/gyroscope/gyro_img2.jpg",
         img3 = "assets/img/product_images/gyroscope/gyro_img3.jpg",
-        vid1 = "assets/img/product_images/gyroscope/gyro_vid1.jpg",
+        vid1 = "assets/img/product_images/gyroscope/gyro_vid1.mp4",
         product_id=new_product.id  # Associate the image link with the new product
         
     )
