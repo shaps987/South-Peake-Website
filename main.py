@@ -51,7 +51,7 @@ def load_user(user_id):
     return db.get_or_404(User, user_id)
 
 #--------------------------------------------------------------Configure Tables--------------------------------------------------------------
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     email: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)

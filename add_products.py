@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin, login_user, login_required, LoginManager, current_user, logout_user
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Float
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
@@ -21,6 +22,14 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///blog
 db = SQLAlchemy(model_class=Base)
 # Initialise the app with the extension
 db.init_app(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return db.get_or_404(User, user_id)
+
 
 #Configure Tables
 class User(db.Model):
