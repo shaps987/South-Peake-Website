@@ -157,6 +157,10 @@ footer .nav-link:hover {
   overflow: hidden; /* Prevent content from spilling out */
 }
 
+/* =============================== */
+/* Responsive Design */
+/* =============================== */
+
 @media (max-width: 768px) {
   /* Reduce arrow hitbox size */
   .carousel-control-prev,
@@ -179,6 +183,10 @@ footer .nav-link:hover {
   }
 }
 
+/* =============================== */
+/* Utility Classes */
+/* =============================== */
+
 .white-color {
-  color: white;
+  color: white; /* Utility class to enforce white text */
 }
