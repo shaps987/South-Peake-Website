@@ -24,6 +24,10 @@
                             </div>
                         </div>
                     {% endfor %}
+                    {% if logged_in %}
+                        <p class="white-color fs-5">If you want to buy some of these products click on the button below.</p>
+                        <a href="{{ url_for('purchase') }}"><button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Purchase Products</button></a>
+                    {% endif %}
                 </div>
             </div>
         </div>

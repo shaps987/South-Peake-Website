@@ -24,6 +24,9 @@
               <a class="nav-link dropdown-toggle {% if 'printing' in request.endpoint %}active{% endif %}" href="{{ url_for('printing') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">3D Printing</a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{ url_for('items') }}">Items</a></li>
+                {% if logged_in %}
+                  <li><a class="dropdown-item" href="{{ url_for('purchase') }}">Items</a></li>
+                {% endif %}
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{{ url_for('custom_cad') }}">Custom CAD Designing</a></li>
                 <li><a class="dropdown-item" href="{{ url_for('custom_printing') }}">Custom 3D Printing</a></li>
