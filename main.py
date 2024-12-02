@@ -1,5 +1,5 @@
 #--------------------------------------------------------------Imports--------------------------------------------------------------
-from flask import Flask, abort, render_template, redirect, url_for, flash, request
+from flask import Flask, abort, render_template, redirect, url_for, flash, request, session
 from flask_bootstrap import Bootstrap5
 from flask_gravatar import Gravatar
 from flask_login import UserMixin, login_user, login_required, LoginManager, current_user, logout_user
@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Text
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import RegisterForm, LoginForm, ContactForm
+from forms import RegisterForm, LoginForm, ContactForm, PurchaseForm, PurchaseConfirmationForm
 import os
 from dotenv import load_dotenv
 import smtplib
@@ -71,10 +71,10 @@ class ImageLink(db.Model):
     __tablename__ = "images"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
-    img1: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    img2: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    img3: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    vid1: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    img1: Mapped[str] = mapped_column(Text, unique=False, nullable=False)
+    img2: Mapped[str] = mapped_column(Text, unique=False, nullable=False)
+    img3: Mapped[str] = mapped_column(Text, unique=False, nullable=False)
+    vid1: Mapped[str] = mapped_column(Text, unique=False, nullable=False)
 
     product_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("products.id"))
     product = relationship("Product", back_populates="images")
@@ -95,10 +95,11 @@ with open("/etc/secrets/APP_PASSWORD") as file:
 
 def send_email(subject, message):
     email_message = f"Subject:{subject}\n\n{message}"
-    with smtplib.SMTP("smtp.gmail.com") as connection:
+    with smtplib.SMTP("smtp.gmail.com", 587) as connection:
         connection.starttls()
         connection.login(MY_EMAIL, APP_PASSWORD)
         connection.sendmail(MY_EMAIL, TO_EMAIL, email_message)
+
 
 #--------------------------------------------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------Flask Pages--------------------------------------------------------------
@@ -207,6 +208,50 @@ def specific_item():
     item = db.get_or_404(Product, id)
     images = item.images[0]
     return render_template("specific_item.html", item=item, images=images, logged_in=current_user.is_authenticated)
+
+#--------------------------------------------------------------Purchase Products Page--------------------------------------------------------------
+@app.route('/3d_printing/purchase', methods=["GET", "POST"])
+def purchase():
+    form = PurchaseForm()
+    if form.validate_on_submit():
+        global summary
+        gyroscope_price = db.session.execute(db.select(Product).where(Product.name == "Gyroscope")).scalar().price
+        rex_price = db.session.execute(db.select(Product).where(Product.name == "Flexi-Rex")).scalar().price
+        octopus_price = db.session.execute(db.select(Product).where(Product.name == "Flexi-Octopus")).scalar().price
+        dragon_price = db.session.execute(db.select(Product).where(Product.name == "Flexi-Dragon")).scalar().price
+        session['summary'] = f"""
+        # of Gyroscopes: {form.gyroscopes.data} \n
+        # of Flexi-Rexs: {form.rexs.data} \n
+        # of Flexi-Octopi: {form.octopi.data} \n
+        # of Flexi-Dragons: {form.dragons.data} \n
+        Cost: ${form.gyroscopes.data*gyroscope_price + form.rexs.data*rex_price + form.octopi.data*octopus_price + form.dragons.data*dragon_price}
+        """
+        return redirect(url_for("purchase_confirmation"))
+    return render_template("purchase.html", form=form, logged_in=current_user.is_authenticated)
+
+#--------------------------------------------------------------Purchase Confirmation Page--------------------------------------------------------------
+@app.route('/3d_printing/purchase/confirmation', methods=["GET", "POST"])
+def purchase_confirmation():
+    form = PurchaseConfirmationForm()
+    summary=session.get('summary')
+    if form.validate_on_submit():
+        if form.back.data:  # Check if the "Edit" button was pressed
+            return redirect(url_for('purchase'))  # Redirect to the purchase page
+        elif form.submit.data:  # Check if the "Submit Order" button was pressed
+            message="""
+            Your order has been sent. Thank you for shopping with South Peake. We will process your order and reach out to the email associated with your account in order to make the transaction. Once again, we appreciate you for choosing South Peake.
+            """
+            email_messsage=f"""
+            Summary: 
+            {session.get('summary')}
+
+            Account Email: { current_user.email }
+            """
+            
+            send_email(subject="South Peake Order", message=email_messsage)
+            return render_template("purchase_confirmation.html", message=message, form=form, summary=summary, logged_in=current_user.is_authenticated)
+
+    return render_template("purchase_confirmation.html", form=form, summary=summary, logged_in=current_user.is_authenticated)
 
 #--------------------------------------------------------------Custom CAD Page--------------------------------------------------------------
 @app.route('/3d_printing/cad', methods=["GET", "POST"])

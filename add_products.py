@@ -52,10 +52,10 @@ class ImageLink(db.Model):
     __tablename__ = "images"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
-    img1: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    img2: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    img3: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
-    vid1: Mapped[str] = mapped_column(Text, unique=True, nullable=False)
+    img1: Mapped[str] = mapped_column(Text, unique=False, nullable=False)
+    img2: Mapped[str] = mapped_column(Text, unique=False, nullable=False)
+    img3: Mapped[str] = mapped_column(Text, unique=False, nullable=False)
+    vid1: Mapped[str] = mapped_column(Text, unique=False, nullable=False)
 
     product_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("products.id"))
     product = relationship("Product", back_populates="images")
@@ -89,6 +89,48 @@ with app.app_context():
         name="Flexi-Rex",
         short_description = "Flexi-Rex is a multi-jointed t-rex. It is fun to fidget with and it can bend into many different stances.",
         long_description = "Flexi-Rex is a multi-jointed t-rex. It is fun to fidget with and it can bend into many different stances.",
+        price=3,
+    )
+    db.session.add(new_product)
+    db.session.commit()  # Commit to get the product ID
+
+    # Create a new image link associated with the product
+    new_image_link = ImageLink(
+        img1="assets/img/product_images/flexi-rex/rex_img1.jpg",
+        img2="assets/img/product_images/flexi-rex/rex_img2.jpg",
+        img3="assets/img/product_images/flexi-rex/rex_img3.jpg",
+        vid1="assets/img/product_images/flexi-rex/rex_vid1.mp4",
+        product_id=new_product.id  # Associate the image link with the new product
+    )
+    db.session.add(new_image_link)
+    db.session.commit()
+
+    # Create a new product
+    new_product = Product(
+        name="Flexi-Octopus",
+        short_description = "Flexi-Octopus is something something something something something.",
+        long_description = "Flexi-Octopus is something something something something something.",
+        price=3,
+    )
+    db.session.add(new_product)
+    db.session.commit()  # Commit to get the product ID
+
+    # Create a new image link associated with the product
+    new_image_link = ImageLink(
+        img1="assets/img/product_images/flexi-rex/rex_img1.jpg",
+        img2="assets/img/product_images/flexi-rex/rex_img2.jpg",
+        img3="assets/img/product_images/flexi-rex/rex_img3.jpg",
+        vid1="assets/img/product_images/flexi-rex/rex_vid1.mp4",
+        product_id=new_product.id  # Associate the image link with the new product
+    )
+    db.session.add(new_image_link)
+    db.session.commit()
+
+    # Create a new product
+    new_product = Product(
+        name="Flexi-Dragon",
+        short_description = "Flexi-Dragon is something something something something something.",
+        long_description = "Flexi-Dragon is something something something something something.",
         price=3,
     )
     db.session.add(new_product)

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, IntegerField
 from wtforms.validators import DataRequired, Email, EqualTo
 
 class RegisterForm(FlaskForm):
@@ -20,3 +20,14 @@ class ContactForm(FlaskForm):
     phone = StringField("Phone Number", validators=[DataRequired()])
     message = StringField("Message", validators=[DataRequired()])
     submit = SubmitField("Contact South Peake")
+
+class PurchaseForm(FlaskForm):
+    gyroscopes = IntegerField("# of Gyroscopes", validators=[DataRequired()])
+    rexs = IntegerField("# of Flexi-Rexs", validators=[DataRequired()])
+    octopi = IntegerField("# of Flexi-Octopi", validators=[DataRequired()])
+    dragons = IntegerField("# of Flexi-Dragons", validators=[DataRequired()])
+    submit = SubmitField("Proceed to Order Summary")
+
+class PurchaseConfirmationForm(FlaskForm):
+    back = SubmitField("Edit")
+    submit = SubmitField("Submit Order")
