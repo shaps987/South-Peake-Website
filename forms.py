@@ -6,12 +6,9 @@ class FlexibleIntegerField(IntegerField):
     def process_formdata(self, valuelist):
         if valuelist:
             try:
-                # Check for both string and numeric values
-                self.data = int(valuelist[0])
-            except (ValueError, TypeError):
-                raise ValidationError("This field requires an integer value.")
-        else:
-            self.data = None
+                self.data = int(valuelist[0]) if valuelist[0].strip() != '' else None
+            except ValueError:
+                raise ValidationError("This field requires an integer.")
 
 class RegisterForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])
