@@ -1,12 +1,12 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, IntegerField, ValidationError
-from wtforms.validators import DataRequired, Email, EqualTo
+from wtforms.validators import DataRequired, Email, EqualTo, InputRequired
 
 class FlexibleIntegerField(IntegerField):
     def process_formdata(self, valuelist):
         if valuelist:
             try:
-                self.data = int(valuelist[0]) if valuelist[0].strip() != '' else None
+                self.data = int(valuelist[0]) if valuelist[0].strip() != '' else 0
             except ValueError:
                 raise ValidationError("This field requires an integer.")
 
@@ -30,7 +30,7 @@ class ContactForm(FlaskForm):
     submit = SubmitField("Contact South Peake")
 
 class PurchaseForm(FlaskForm):
-    gyroscopes = FlexibleIntegerField("# of Gyroscopes", validators=[DataRequired()])
+    gyroscopes = FlexibleIntegerField("# of Gyroscopes", validators=[InputRequired()])
     rexs = IntegerField("# of Flexi-Rexs", validators=[DataRequired()])
     octopi = IntegerField("# of Flexi-Octopi", validators=[DataRequired()])
     dragons = IntegerField("# of Flexi-Dragons", validators=[DataRequired()])
