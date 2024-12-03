@@ -31,9 +31,9 @@ class ContactForm(FlaskForm):
 
 class PurchaseForm(FlaskForm):
     gyroscopes = FlexibleIntegerField("# of Gyroscopes", validators=[InputRequired()])
-    rexs = IntegerField("# of Flexi-Rexs", validators=[DataRequired()])
-    octopi = IntegerField("# of Flexi-Octopi", validators=[DataRequired()])
-    dragons = IntegerField("# of Flexi-Dragons", validators=[DataRequired()])
+    rexs = FlexibleIntegerField("# of Flexi-Rexs", validators=[DataRequired()])
+    octopi = FlexibleIntegerField("# of Flexi-Octopi", validators=[DataRequired()])
+    dragons = FlexibleIntegerField("# of Flexi-Dragons", validators=[DataRequired()])
     submit = SubmitField("Proceed to Order Summary")
 
 class PurchaseConfirmationForm(FlaskForm):
