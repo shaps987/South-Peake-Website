@@ -1,8 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, IntegerField, ValidationError
+from wtforms import StringField, SubmitField, PasswordField, ValidationError
 from wtforms.validators import DataRequired, Email, EqualTo, InputRequired
+import os
+import requests
 
-class FlexibleIntegerField(IntegerField):
+class FlexibleIntegerField(StringField):
     def process_formdata(self, valuelist):
         if valuelist:
             try:
@@ -24,7 +26,7 @@ class LoginForm(FlaskForm):
 
 class ContactForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
-    email = StringField("Email", validators=[DataRequired(), Email(message="Invalid email", check_deliverability=True)])
+    email = StringField("Email", validators=[DataRequired(), Email()])
     phone = StringField("Phone Number", validators=[DataRequired()])
     message = StringField("Message", validators=[DataRequired()])
     submit = SubmitField("Contact South Peake")

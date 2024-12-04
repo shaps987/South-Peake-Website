@@ -1,17 +1,52 @@
-<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon.ico') }}"/>
-{% from "bootstrap5/form.html" import render_form %} 
+<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" />
 <div class="content-wrapper">
   {% include "header.html" %}
   <div class="container col-xxl-10 px-3 py-5">
     <div class="row align-items-center g-4 py-4">
       <div class="col-lg-6 text-center text-lg-start">
         <h1 class="display-5 fw-bold text-body-emphasis mb-3">Contact South Peake</h1>
-        <p class="white-color fs-5">If you have any questions, concerns or anything else, feel free to use this form to contact us. You can also send an email us at admin@southpeake.com (Use this option if the contact form isn't working).</p>
+        <p class="white-color fs-5">If you have any questions, concerns, or anything else, feel free to use this form to contact us. You can also email us at admin@southpeake.com (Use this option if the contact form isn't working).</p>
       </div>
       <div class="col-md-8 col-lg-5 mx-auto">
-        {{render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-info">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <form method="POST" novalidate>
+          {{ form.hidden_tag() }}
+          <div class="form-floating mb-3">
+            {{ form.name(class="form-control") }}
+            {{ form.name.label(class="form-label") }}
+          </div>
+          <div class="form-floating mb-3">
+            {{ form.email(class="form-control") }}
+            {{ form.email.label(class="form-label") }}
+          </div>
+          <div class="form-floating mb-3">
+            {{ form.phone(class="form-control") }}
+            {{ form.phone.label(class="form-label") }}
+          </div>
+          <div class="form-floating mb-3">
+            {{ form.message(class="form-control") }}
+            {{ form.message.label(class="form-label") }}
+          </div>
+          <input type="hidden" id="recaptcha_token" name="recaptcha_token">
+          {{ form.submit(class="btn btn-primary w-100") }}
+        </form>
       </div>
     </div>
   </div>
   {% include "footer.html" %}
 </div>
+
+<script src="https://www.google.com/recaptcha/api.js?render={{ recaptcha_site_key }}"></script>
+<script>
+  grecaptcha.ready(function () {
+    grecaptcha.execute('{{ recaptcha_site_key }}', { action: 'submit' }).then(function (token) {
+      document.getElementById('recaptcha_token').value = token;
+    });
+  });
+</script>

@@ -131,7 +131,7 @@ with app.app_context():
         name="Flexi-Dragon",
         short_description = "Flexi-Dragon is something something something something something.",
         long_description = "Flexi-Dragon is something something something something something.",
-        price=3,
+        price=4,
     )
     db.session.add(new_product)
     db.session.commit()  # Commit to get the product ID

@@ -1,42 +1,49 @@
 #--------------------------------------------------------------Imports--------------------------------------------------------------
-from flask import Flask, abort, render_template, redirect, url_for, flash, request, session
+from flask import Flask, render_template, redirect, url_for, flash, request, session
 from flask_bootstrap import Bootstrap5
 from flask_gravatar import Gravatar
 from flask_login import UserMixin, login_user, login_required, LoginManager, current_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Text
-from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import RegisterForm, LoginForm, ContactForm, PurchaseForm, PurchaseConfirmationForm
 import os
 from dotenv import load_dotenv
 import smtplib
+import requests
 
 #--------------------------------------------------------------Load Env Variables from .env File--------------------------------------------------------------
-load_dotenv()  # This loads the variables from the .env file
+
+with open("/etc/secrets/FLASK_KEY") as file:
+    FLASK_KEY = file.read()
+with open("/etc/secrets/RECAPTCHA_SITE_KEY") as file:
+    RECAPTCHA_SITE_KEY = file.read()
+with open("/etc/secrets/RECAPTCHA_SECRET_KEY") as file:
+    RECAPTCHA_SECRET_KEY = file.read()
+with open("/etc/secrets/TO_EMAIL") as file:
+    TO_EMAIL = file.read()
+with open("/etc/secrets/MY_EMAIL") as file:
+    MY_EMAIL = file.read()
+with open("/etc/secrets/APP_PASSWORD") as file:
+    APP_PASSWORD = file.read()
+
+# load_dotenv()  # This loads the variables from the .env file
+# FLASK_KEY = os.environ.get("FLASK_KEY")
+# RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY")
+# RECAPTCHA_SITE_KEY = os.environ.get("RECAPTCHA_SITE_KEY")
+# MY_EMAIL = os.environ.get("MY_EMAIL")
+# APP_PASSWORD = os.environ.get("APP_PASSWORD")
+# TO_EMAIL = os.environ.get("TO_EMAIL")
 
 #--------------------------------------------------------------Initiate Flask App/Initiate Bootstrap--------------------------------------------------------------
 app = Flask(__name__)
-with open("/etc/secrets/FLASK_KEY") as file:
-    FLASK_KEY = file.read()
-# FLASK_KEY = os.environ.get("FLASK_KEY")
 app.config['SECRET_KEY'] = FLASK_KEY
 Bootstrap5(app)
 
 #--------------------------------------------------------------Configure Flask-Login--------------------------------------------------------------
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-#--------------------------------------------------------------Configure Gravatar Logo--------------------------------------------------------------
-gravatar = Gravatar(app,
-                    size=100,
-                    rating='g',
-                    default='retro',
-                    force_default=False,
-                    force_lower=False,
-                    use_ssl=False,
-                    base_url=None)
 
 #--------------------------------------------------------------Create Database--------------------------------------------------------------
 class Base(DeclarativeBase):
@@ -83,16 +90,6 @@ with app.app_context():
     db.create_all()
 
 #-----------------------------------------------------Configure Email Sending-----------------------------------------------------
-with open("/etc/secrets/MY_EMAIL") as file:
-    MY_EMAIL = file.read()
-with open("/etc/secrets/TO_EMAIL") as file:
-    TO_EMAIL = file.read()
-with open("/etc/secrets/APP_PASSWORD") as file:
-    APP_PASSWORD = file.read()
-# MY_EMAIL = os.environ.get("MY_EMAIL")
-# TO_EMAIL = os.environ.get("TO_EMAIL")
-# APP_PASSWORD = os.environ.get("APP_PASSWORD")
-
 def send_email(subject, message):
     email_message = f"Subject:{subject}\n\n{message}"
     with smtplib.SMTP("smtp.gmail.com", 587) as connection:
@@ -100,64 +97,63 @@ def send_email(subject, message):
         connection.login(MY_EMAIL, APP_PASSWORD)
         connection.sendmail(MY_EMAIL, TO_EMAIL, email_message)
 
-
-#--------------------------------------------------------------------------------------------------------------------------------------
-#--------------------------------------------------------------Flask Pages--------------------------------------------------------------
-#---------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------Condensed reCAPTCHA Verification----------------------------------------------
+def verify_recaptcha(token):
+    response = requests.post(
+        "https://www.google.com/recaptcha/api/siteverify",
+        data={"secret": RECAPTCHA_SECRET_KEY, "response": token}
+    )
+    return response.json().get("success", False)
 
 #--------------------------------------------------------------Register Page--------------------------------------------------------------
 @app.route('/register', methods=["GET", "POST"])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        # Check if user email is already present in the database.
-        result = db.session.execute(db.select(User).where(User.email == form.email.data))
-        user = result.scalar()
-        if user:
-            # User already exists
-            flash("You've already signed up with that email, log in instead.")
+        recaptcha_token = request.form.get('recaptcha_token')
+        if not verify_recaptcha(recaptcha_token):
+            flash("Failed reCAPTCHA validation. Please try again.", "danger")
+            return render_template("register.html", form=form, recaptcha_site_key=RECAPTCHA_SITE_KEY, logged_in=current_user.is_authenticated)
+
+        user_exists = db.session.execute(db.select(User).where(User.email == form.email.data)).scalar()
+        if user_exists:
+            flash("You've already signed up with that email. Please log in instead.", "danger")
             return redirect(url_for('login'))
-        
-        
+
         new_user = User(
             email=form.email.data,
             username=form.username.data,
-            password=generate_password_hash(password=form.password.data, method="pbkdf2:sha256", salt_length=8),
+            password=generate_password_hash(password=form.password.data, method="pbkdf2:sha256", salt_length=8)
         )
-
         db.session.add(new_user)
         db.session.commit()
-        
         login_user(new_user)
-        
+        flash("Registration successful!", "success")
         return redirect(url_for("index"))
-    
-    return render_template("register.html", form=form, logged_in=current_user.is_authenticated)
+    return render_template("register.html", form=form, recaptcha_site_key=RECAPTCHA_SITE_KEY, logged_in=current_user.is_authenticated)
 
 #--------------------------------------------------------------Login Page--------------------------------------------------------------
 @app.route('/login', methods=["GET", "POST"])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        password = form.password.data
-        result = db.session.execute(db.select(User).where(User.email == form.email.data))
-        # Note, email in db is unique so will only have one result.
-        user = result.scalar()
-        # Email doesn't exist
-        if not user:
-            flash("That email does not exist, please try again.")
+        recaptcha_token = request.form.get('recaptcha_token')
+        if not verify_recaptcha(recaptcha_token):
+            flash("Failed reCAPTCHA validation. Please try again.", "danger")
+            return render_template("login.html", form=form, recaptcha_site_key=RECAPTCHA_SITE_KEY, logged_in=current_user.is_authenticated)
+
+        user = db.session.execute(db.select(User).where(User.email == form.email.data)).scalar()
+        if not user or not check_password_hash(user.password, form.password.data):
+            flash("Invalid email or password. Please try again.", "danger")
             return redirect(url_for('login'))
-        # Password incorrect
-        elif not check_password_hash(user.password, password):
-            flash('Password incorrect, please try again.')
-            return redirect(url_for('login'))
-        else:
-            login_user(user)
-            return redirect(url_for('index'))
-        
-    return render_template("login.html", form=form, logged_in=current_user.is_authenticated)
+
+        login_user(user)
+        flash("Login successful!", "success")
+        return redirect(url_for('index'))
+    return render_template("login.html", form=form, recaptcha_site_key=RECAPTCHA_SITE_KEY, logged_in=current_user.is_authenticated)
 
 #--------------------------------------------------------------Logout Process--------------------------------------------------------------
+@login_required
 @app.route('/logout')
 def logout():
     logout_user()
@@ -178,16 +174,33 @@ def about():
 def contact():
     form = ContactForm()
     if form.validate_on_submit():
-        message=f"""
+        # Validate the reCAPTCHA token
+        recaptcha_token = request.form.get('recaptcha_token')
+        recaptcha_secret = os.getenv("RECAPTCHA_SECRET_KEY")
+        recaptcha_response = requests.post(
+            "https://www.google.com/recaptcha/api/siteverify",
+            data={"secret": recaptcha_secret, "response": recaptcha_token}
+        )
+        result = recaptcha_response.json()
+
+        # Check if reCAPTCHA validation passed
+        if not result.get("success"):
+            flash("Failed reCAPTCHA validation. Please try again.", "danger")
+            return render_template("contact.html", form=form, recaptcha_site_key=os.getenv("RECAPTCHA_SITE_KEY"), logged_in=current_user.is_authenticated)
+
+        # Process the contact form
+        message = f"""
         Name: {form.name.data}
         Email: {form.email.data}
         Phone Number: {form.phone.data}
         Message: {form.message.data}
         """
-        
         send_email(subject="South Peake User Contacting You", message=message)
+        flash("Your message has been sent successfully.", "success")
         return redirect(url_for("index"))
-    return render_template("contact.html", form=form, logged_in=current_user.is_authenticated)
+    
+    return render_template("contact.html", form=form, recaptcha_site_key=os.getenv("RECAPTCHA_SITE_KEY"), logged_in=current_user.is_authenticated)
+
 
 #--------------------------------------------------------------3D Printing Page--------------------------------------------------------------
 @app.route('/3d_printing', methods=["GET", "POST"])
@@ -210,6 +223,7 @@ def specific_item():
     return render_template("specific_item.html", item=item, images=images, logged_in=current_user.is_authenticated)
 
 #--------------------------------------------------------------Purchase Products Page--------------------------------------------------------------
+@login_required
 @app.route('/3d_printing/purchase', methods=["GET", "POST"])
 def purchase():
     form = PurchaseForm()
@@ -230,6 +244,7 @@ def purchase():
     return render_template("purchase.html", form=form, logged_in=current_user.is_authenticated)
 
 #--------------------------------------------------------------Purchase Confirmation Page--------------------------------------------------------------
+@login_required
 @app.route('/3d_printing/purchase/confirmation', methods=["GET", "POST"])
 def purchase_confirmation():
     form = PurchaseConfirmationForm()
