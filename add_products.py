@@ -117,9 +117,9 @@ with app.app_context():
 
     # Create a new image link associated with the product
     new_image_link = ImageLink(
-        img1="assets/img/product_images/flexi-rex/rex_img1.jpg",
-        img2="assets/img/product_images/flexi-rex/rex_img2.jpg",
-        img3="assets/img/product_images/flexi-rex/rex_img3.jpg",
+        img1="assets/img/product_images/flexi-octopus/octopus_img1.jpg",
+        img2="assets/img/product_images/flexi-octopus/octopus_img2.jpg",
+        img3="assets/img/product_images/flexi-octopus/octopus_img3.jpg",
         vid1="assets/img/product_images/flexi-rex/rex_vid1.mp4",
         product_id=new_product.id  # Associate the image link with the new product
     )
@@ -138,41 +138,11 @@ with app.app_context():
 
     # Create a new image link associated with the product
     new_image_link = ImageLink(
-        img1="assets/img/product_images/flexi-rex/rex_img1.jpg",
-        img2="assets/img/product_images/flexi-rex/rex_img2.jpg",
-        img3="assets/img/product_images/flexi-rex/rex_img3.jpg",
+        img1="assets/img/product_images/flexi-dragon/dragon_img1.jpg",
+        img2="assets/img/product_images/flexi-dragon/dragon_img2.jpg",
+        img3="assets/img/product_images/flexi-dragon/dragon_img3.jpg",
         vid1="assets/img/product_images/flexi-rex/rex_vid1.mp4",
         product_id=new_product.id  # Associate the image link with the new product
     )
     db.session.add(new_image_link)
     db.session.commit()
-
-# #READ All Records
-# with app.app_context():
-#     all_books = db.session.execute(db.select(Book).order_by(Book.title)).scalars()
-
-# #READ a Particular Record By Query
-# with app.app_context():
-#     book = db.session.execute(db.select(Book).where(Book.title == "Harry Potter Book 1")).scalar() #Using .scalar(), not .scalars()
-
-# #UPDATE A Particular Record By Query
-# with app.app_context():
-#     book_to_update = db.session.execute(db.select(Book).where(Book.title == "Harry Potter Book 2")).scalar()
-#     book_to_update.title = "Harry Potter and the Chamber of Secrets"
-#     db.session.commit() 
-
-# #UPDATE A Record By Primary Key
-# book_id = 2
-# with app.app_context():
-#     book_to_update = db.session.execute(db.select(Book).where(Book.id == book_id)).scalar()
-#     # or book_to_update = db.get_or_404(Book, book_id)  
-#     book_to_update.title = "Harry Potter and the Sorcerer's Stone"
-#     db.session.commit()
-    
-# #DELETE A Particular Record by Primary Key
-# book_id = 1
-# with app.app_context():
-#     book_to_delete = db.session.execute(db.select(Book).where(Book.id == book_id)).scalar()
-#     # or book_to_delete = db.get_or_404(Book, book_id)
-#     db.session.delete(book_to_delete)
-#     db.session.commit()
