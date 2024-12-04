@@ -27,6 +27,8 @@ with open("/etc/secrets/MY_EMAIL") as file:
     MY_EMAIL = file.read()
 with open("/etc/secrets/APP_PASSWORD") as file:
     APP_PASSWORD = file.read()
+with open("/etc/secrets/DB_URI") as file:
+    DB_URI = file.read()
 
 # load_dotenv()  # This loads the variables from the .env file
 # FLASK_KEY = os.environ.get("FLASK_KEY")
@@ -35,6 +37,7 @@ with open("/etc/secrets/APP_PASSWORD") as file:
 # MY_EMAIL = os.environ.get("MY_EMAIL")
 # APP_PASSWORD = os.environ.get("APP_PASSWORD")
 # TO_EMAIL = os.environ.get("TO_EMAIL")
+# DB_URI = os.environ.get("DB_URI", "sqlite:///blog.db")
 
 #--------------------------------------------------------------Initiate Flask App/Initiate Bootstrap--------------------------------------------------------------
 app = Flask(__name__)
@@ -48,7 +51,7 @@ login_manager.init_app(app)
 #--------------------------------------------------------------Create Database--------------------------------------------------------------
 class Base(DeclarativeBase):
     pass
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///blog.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
