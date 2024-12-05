@@ -3,14 +3,24 @@
   {% include "header.html" %}
   <div class="container col-xxl-10 px-3 py-5">
     <div class="row align-items-center g-4 py-4">
-        <div class="col-lg-6 text-center text-lg-start">
-            <h1 class="display-5 fw-bold text-body-emphasis mb-3">Custom 3D Printing</h1>
-            <p class="white-color fs-5">PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE </p>
-        </div>
-        <div class="col-md-8 col-lg-5 mx-auto">
-            <img src="{{ url_for('static', filename='assets/img/custom_3d.jpg')}}" class="d-block mx-lg-auto img-fluid" width="700" height="500" loading="lazy">
-        </div>
+      <div class="col-lg-6 text-center text-lg-start">
+        <h1 class="display-5 fw-bold text-body-emphasis mb-3">Custom 3D Printing</h1>
+        <p class="white-color fs-5">
+          At South Peake, we specialize in custom 3D printing services tailored to your specific needs. Whether you're an entrepreneur 
+          refining your next big invention, a hobbyist working on your passion project, or a business needing precise parts, 
+          we can help bring your ideas to life. Provide your 3D print file, and our advanced 3D printing equipment will 
+          handle the rest, delivering high-quality prints with precision and care.
+        </p>
+        <p class="white-color fs-5">
+          Our team is dedicated to ensuring that your custom 3D printing experience is smooth and efficient. 
+          From small intricate designs to larger-scale projects, we’re here to make it happen.
+        </p>
+        <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg mt-3">Contact Us to Place an Order</a>
+      </div>
+      <div class="col-md-8 col-lg-5 mx-auto">
+        <img src="{{ url_for('static', filename='assets/img/custom_3d.jpg') }}" class="d-block mx-lg-auto img-fluid custom-img" width="700" height="500" loading="lazy" alt="Custom 3D Printing">
+      </div>
     </div>
-</div>
-{% include "footer.html" %}
+  </div>
+  {% include "footer.html" %}
 </div>

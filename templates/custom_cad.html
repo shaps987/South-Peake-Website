@@ -3,14 +3,36 @@
   {% include "header.html" %}
   <div class="container col-xxl-10 px-3 py-5">
     <div class="row align-items-center g-4 py-4">
-        <div class="col-lg-6 text-center text-lg-start">
-            <h1 class="display-5 fw-bold text-body-emphasis mb-3">Custom CAD Designing</h1>
-            <p class="white-color fs-5">PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE </p>
-        </div>
-        <div class="col-md-8 col-lg-5 mx-auto">
-            <img src="{{ url_for('static', filename='assets/img/custom_cad.png')}}" class="d-block mx-lg-auto img-fluid" width="700" height="500" loading="lazy">
-        </div>
+      <div class="col-lg-6 text-center text-lg-start">
+        <h1 class="display-5 fw-bold text-body-emphasis mb-3">Custom CAD Designing</h1>
+        <p class="white-color fs-5">
+          At South Peake, we transform your concepts into reality using advanced Computer-Aided Design (CAD) software. 
+          CAD is a powerful tool that enables precise and detailed digital models for everything from prototypes to final products. 
+          Whether you have a rough idea, a hand-drawn sketch, or a fully formed vision, our team can bring your ideas to life 
+          with professional-grade CAD designs.
+        </p>
+        <p class="white-color fs-5">
+          From small components to intricate assemblies, we work closely with you to ensure that the designs meet your exact 
+          specifications. Our CAD services are ideal for inventors, engineers, and businesses looking to streamline their design 
+          process with precision and expertise.
+        </p>
+        <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg mt-3">Contact Us to Start Your Design</a>
+      </div>
+      <div class="col-md-8 col-lg-5 mx-auto">
+        <img src="{{ url_for('static', filename='assets/img/custom_cad_1.png') }}" 
+             class="d-block mx-lg-auto img-fluid mb-4 custom-img" 
+             width="700" 
+             height="500" 
+             loading="lazy" 
+             alt="Custom CAD Designing">
+        <img src="{{ url_for('static', filename='assets/img/custom_cad_2.png') }}" 
+             class="d-block mx-lg-auto img-fluid custom-img" 
+             width="700" 
+             height="500" 
+             loading="lazy" 
+             alt="Custom CAD Designing">
+      </div>
     </div>
-</div>
-{% include "footer.html" %}
+  </div>
+  {% include "footer.html" %}
 </div>

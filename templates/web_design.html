@@ -4,20 +4,35 @@
   {% include "header.html" %}
   <div class="container col-xxl-10 px-3 py-5">
     <div class="row align-items-center g-4 py-4">
-        <div class="px-4 pt-5 my-5 text-center border-bottom">
-            <h1 class="display-4 fw-bold text-body-emphasis">Website Design</h1>
-            <div class="col-lg-6 mx-auto">
-              <p class="white-color lead mb-4">PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE PUT TEXT HERE</p>
-              <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-              </div>
-            </div>
-            <div class="overflow-hidden" style="max-height: 30vh;">
-              <div class="container px-5">
-                <img src="{{ url_for('static', filename='assets/img/web_design.png')}}" class="img-fluid border rounded-3 shadow-lg mb-4"width="700" height="500" loading="lazy">
-              </div>
-            </div>
+      <div class="px-4 pt-5 my-5 text-center border-bottom">
+        <h1 class="display-4 fw-bold text-body-emphasis">Website Design</h1>
+        <div class="col-lg-6 mx-auto">
+          <p class="white-color lead mb-4">
+            At South Peake, we specialize in creating professional, responsive, and visually appealing websites tailored to your 
+            specific needs. Whether you’re a business owner, an artist, or someone looking to showcase your portfolio, we are here 
+            to help you make a lasting impression online. 
+          </p>
+          <p class="white-color lead mb-4">
+            Using modern design principles and cutting-edge technologies, we ensure your website is both functional and aesthetically 
+            pleasing. This very website demonstrates our commitment to delivering sleek designs, seamless navigation, and optimized 
+            user experiences.
+          </p>
+          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+            <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg">Contact Us for Web Design</a>
           </div>
+        </div>
+        <div class="overflow-hidden" style="max-height: 30vh;">
+          <div class="container px-5">
+            <img src="{{ url_for('static', filename='assets/img/web_design.png')}}" 
+                 class="img-fluid shadow-lg mb-4 custom-img" 
+                 width="700" 
+                 height="500" 
+                 loading="lazy" 
+                 alt="Web Design">
+          </div>
+        </div>
+      </div>
     </div>
-</div>
-{% include "footer.html" %}
+  </div>
+  {% include "footer.html" %}
 </div>

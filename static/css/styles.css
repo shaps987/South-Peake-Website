@@ -198,3 +198,10 @@ footer .nav-link:hover {
 .white-color {
   color: white;
 }
+
+/* Custom image styling class */
+.custom-img {
+  border: 2px solid #ccc; /* Light gray border */
+  border-radius: 10px;    /* Rounded corners */
+  padding: 5px;           /* Optional: Add some spacing inside the border */
+}
