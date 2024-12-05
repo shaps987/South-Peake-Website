@@ -1,8 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, ValidationError
 from wtforms.validators import DataRequired, Email, EqualTo, InputRequired
-import os
-import requests
 
 class FlexibleIntegerField(StringField):
     def process_formdata(self, valuelist):

@@ -1,7 +1,6 @@
 #--------------------------------------------------------------Imports--------------------------------------------------------------
 from flask import Flask, render_template, redirect, url_for, flash, request, session
 from flask_bootstrap import Bootstrap5
-from flask_gravatar import Gravatar
 from flask_login import UserMixin, login_user, login_required, LoginManager, current_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
