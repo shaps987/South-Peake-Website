@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, ValidationError
-from wtforms.validators import DataRequired, Email, EqualTo, InputRequired
+from wtforms.validators import DataRequired, Email, EqualTo, InputRequired, Regexp
 
 class FlexibleIntegerField(StringField):
     def process_formdata(self, valuelist):
@@ -25,7 +25,16 @@ class LoginForm(FlaskForm):
 class ContactForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired(), Email()])
-    phone = StringField("Phone Number", validators=[DataRequired()])
+    phone = StringField(
+        "Phone Number", 
+        validators=[
+            DataRequired(),
+            Regexp(
+                r'^\+?[1-9]\d{1,14}$', 
+                message="Invalid phone number format. Please include the country code."
+            )
+        ]
+    )
     message = StringField("Message", validators=[DataRequired()])
     submit = SubmitField("Contact South Peake")
 
