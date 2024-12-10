@@ -14,29 +14,29 @@ import requests
 
 #--------------------------------------------------------------Load Env Variables from .env File--------------------------------------------------------------
 
-with open("/etc/secrets/FLASK_KEY") as file:
-    FLASK_KEY = file.read()
-with open("/etc/secrets/RECAPTCHA_SITE_KEY") as file:
-    RECAPTCHA_SITE_KEY = file.read()
-with open("/etc/secrets/RECAPTCHA_SECRET_KEY") as file:
-    RECAPTCHA_SECRET_KEY = file.read()
-with open("/etc/secrets/TO_EMAIL") as file:
-    TO_EMAIL = file.read()
-with open("/etc/secrets/MY_EMAIL") as file:
-    MY_EMAIL = file.read()
-with open("/etc/secrets/APP_PASSWORD") as file:
-    APP_PASSWORD = file.read()
-with open("/etc/secrets/DB_URI") as file:
-    DB_URI = file.read()
+# with open("/etc/secrets/FLASK_KEY") as file:
+#     FLASK_KEY = file.read()
+# with open("/etc/secrets/RECAPTCHA_SITE_KEY") as file:
+#     RECAPTCHA_SITE_KEY = file.read()
+# with open("/etc/secrets/RECAPTCHA_SECRET_KEY") as file:
+#     RECAPTCHA_SECRET_KEY = file.read()
+# with open("/etc/secrets/TO_EMAIL") as file:
+#     TO_EMAIL = file.read()
+# with open("/etc/secrets/MY_EMAIL") as file:
+#     MY_EMAIL = file.read()
+# with open("/etc/secrets/APP_PASSWORD") as file:
+#     APP_PASSWORD = file.read()
+# with open("/etc/secrets/DB_URI") as file:
+#     DB_URI = file.read()
 
-# load_dotenv()  # This loads the variables from the .env file
-# FLASK_KEY = os.environ.get("FLASK_KEY")
-# RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY")
-# RECAPTCHA_SITE_KEY = os.environ.get("RECAPTCHA_SITE_KEY")
-# MY_EMAIL = os.environ.get("MY_EMAIL")
-# APP_PASSWORD = os.environ.get("APP_PASSWORD")
-# TO_EMAIL = os.environ.get("TO_EMAIL")
-# DB_URI = os.environ.get("DB_URI", "sqlite:///blog.db")
+load_dotenv()  # This loads the variables from the .env file
+FLASK_KEY = os.environ.get("FLASK_KEY")
+RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY")
+RECAPTCHA_SITE_KEY = os.environ.get("RECAPTCHA_SITE_KEY")
+MY_EMAIL = os.environ.get("MY_EMAIL")
+APP_PASSWORD = os.environ.get("APP_PASSWORD")
+TO_EMAIL = os.environ.get("TO_EMAIL")
+DB_URI = os.environ.get("DB_URI", "sqlite:///blog.db")
 
 #--------------------------------------------------------------Initiate Flask App/Initiate Bootstrap--------------------------------------------------------------
 app = Flask(__name__)
