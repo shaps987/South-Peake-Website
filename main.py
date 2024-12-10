@@ -155,8 +155,8 @@ def login():
     return render_template("login.html", form=form, recaptcha_site_key=RECAPTCHA_SITE_KEY, logged_in=current_user.is_authenticated)
 
 #--------------------------------------------------------------Logout Process--------------------------------------------------------------
-@login_required
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
@@ -225,8 +225,8 @@ def specific_item():
     return render_template("specific_item.html", item=item, images=images, logged_in=current_user.is_authenticated)
 
 #--------------------------------------------------------------Purchase Products Page--------------------------------------------------------------
-@login_required
 @app.route('/3d_printing/purchase', methods=["GET", "POST"])
+@login_required
 def purchase():
     form = PurchaseForm()
     if form.validate_on_submit():
@@ -246,8 +246,8 @@ def purchase():
     return render_template("purchase.html", form=form, logged_in=current_user.is_authenticated)
 
 #--------------------------------------------------------------Purchase Confirmation Page--------------------------------------------------------------
-@login_required
 @app.route('/3d_printing/purchase/confirmation', methods=["GET", "POST"])
+@login_required
 def purchase_confirmation():
     form = PurchaseConfirmationForm()
     summary=session.get('summary')
