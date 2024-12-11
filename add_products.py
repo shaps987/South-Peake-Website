@@ -120,7 +120,7 @@ with app.app_context():
         img1="assets/img/product_images/flexi-octopus/octopus_img1.jpg",
         img2="assets/img/product_images/flexi-octopus/octopus_img2.jpg",
         img3="assets/img/product_images/flexi-octopus/octopus_img3.jpg",
-        vid1="assets/img/product_images/flexi-rex/rex_vid1.mp4",
+        vid1="assets/img/product_images/flexi-octopus/octopus_vid1.mp4",
         product_id=new_product.id  # Associate the image link with the new product
     )
     db.session.add(new_image_link)
@@ -141,7 +141,7 @@ with app.app_context():
         img1="assets/img/product_images/flexi-dragon/dragon_img1.jpg",
         img2="assets/img/product_images/flexi-dragon/dragon_img2.jpg",
         img3="assets/img/product_images/flexi-dragon/dragon_img3.jpg",
-        vid1="assets/img/product_images/flexi-rex/rex_vid1.mp4",
+        vid1="assets/img/product_images/flexi-dragon/dragon_vid1.mp4",
         product_id=new_product.id  # Associate the image link with the new product
     )
     db.session.add(new_image_link)
